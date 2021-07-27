@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class Q4_CrossSum_2 {
 
     public static void main(String[] args) {
-        PrintWriter out = new PrintWriter(System.out);
         int h = nextInt();
         int w = nextInt();
 
@@ -35,6 +34,7 @@ public class Q4_CrossSum_2 {
         out.flush();
     }
 
+    static PrintWriter out = new PrintWriter(System.out);
     static Scanner scanner = new Scanner(System.in);
     static int nextInt() {
         return Integer.parseInt(scanner.next());
