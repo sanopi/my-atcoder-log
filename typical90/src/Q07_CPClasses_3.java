@@ -16,22 +16,16 @@ public class Q07_CPClasses_3 {
 
         for (int i = 0; i < q; i++) {
             int student = students[i];
-            // 自分のレートより大きければOKとする
-            int ok = n-1;
-            int ng = -1;
-            while (ok-ng!=1) {
-                int checkPoint = (ok + ng) / 2;
-                if (classes[checkPoint] - student > 0) {
-                    ok = checkPoint;
-                } else {
-                    ng = checkPoint;
-                }
+
+            int position = Arrays.binarySearch(classes, student);
+            if (position < 0) {
+                position = -(position + 1);
             }
-            if (ok == 0) {
-                out.println(Math.abs(classes[ok] - student));
-            } else {
-                out.println(Math.min(Math.abs(classes[ok] - student), Math.abs(classes[ok-1] - student)));
-            }
+            int diff1 = Integer.MAX_VALUE;
+            int diff2 = Integer.MAX_VALUE;
+            if (position < n) diff1 = Math.abs(classes[position] - student);
+            if (position > 0) diff2= Math.abs(classes[position-1] - student);
+            out.println(Math.min(diff1, diff2));
         }
         out.flush();
     }
