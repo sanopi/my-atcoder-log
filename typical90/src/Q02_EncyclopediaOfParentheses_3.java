@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Q2_EncyclopediaOfParentheses_3 {
+public class Q02_EncyclopediaOfParentheses_3 {
 
     static final String LEFT = "(";
     static final String RIGHT = ")";

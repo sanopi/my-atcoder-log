@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Q1_YokanParty_4 {
+public class Q01_YokanParty_4 {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Q4_CrossSum_2 {
+public class Q04_CrossSum_2 {
 
     public static void main(String[] args) {
         int h = nextInt();

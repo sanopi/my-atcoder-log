@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Q3_LongestCircularRoad_4 {
+public class Q03_LongestCircularRoad_4 {
 
     static ArrayList<Integer>[] g;
     static int maxTown = 0;
