@@ -9,10 +9,13 @@ public class JavaTemplate {
 
     static PrintWriter out = new PrintWriter(System.out);
     static Scanner scanner = new Scanner(System.in);
+    static String next() {
+        return scanner.next();
+    }
     static int nextInt() {
-        return Integer.parseInt(scanner.next());
+        return Integer.parseInt(next());
     }
     static long nextLong() {
-        return Long.parseLong(scanner.next());
+        return Long.parseLong(next());
     }
 }
