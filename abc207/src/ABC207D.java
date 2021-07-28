@@ -56,7 +56,7 @@ public class ABC207D {
         System.out.println("No");
     }
 
-    static class Pair {
+    private static class Pair {
         int x;
         int y;
 
