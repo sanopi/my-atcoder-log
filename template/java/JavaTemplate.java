@@ -18,4 +18,7 @@ public class JavaTemplate {
     static long nextLong() {
         return Long.parseLong(next());
     }
+    static double nextDouble() {
+        return Double.parseDouble(next());
+    }
 }

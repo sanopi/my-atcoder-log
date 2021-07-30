@@ -3,3 +3,4 @@
 ★6 https://atcoder.jp/contests/typical90/tasks/typical90_k
 ★5 https://atcoder.jp/contests/typical90/tasks/typical90_m
 ★6 https://atcoder.jp/contests/typical90/tasks/typical90_o
+★6 https://atcoder.jp/contests/typical90/tasks/typical90_q
