@@ -1,11 +1,4 @@
-public class Pow {
-
-    public static void main(String[] args) {
-        int a=9;
-        int n=10000000;
-        int mod=1000000007;
-        System.out.println(modPow(a, n, mod));
-    }
+public class Mathematics {
 
     private static int modPow(int a, int n, int mod) {
         int[] exps = new int[32];
@@ -25,5 +18,14 @@ public class Pow {
         }
 
         return res;
+    }
+
+    private static long gcd(long a, long b) {
+        if (a % b == 0) { return b; }
+        return gcd(b, a % b);
+    }
+
+    private static long lcm(long a, long b) {
+        return a * b / gcd(a, b);
     }
 }
