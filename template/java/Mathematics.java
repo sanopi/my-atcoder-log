@@ -1,9 +1,9 @@
 public class Mathematics {
 
-    private static int modPow(int a, int n, int mod) {
-        int[] exps = new int[32];
+    private static long modPow(int a, int n, int mod) {
+        long[] exps = new long[32];
         exps[0] = a;
-        int res = 1;
+        long res = 1;
         int i = 0;
         while (true) {
             long exp = 1L << i;
