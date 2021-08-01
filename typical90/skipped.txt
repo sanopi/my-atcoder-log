@@ -17,5 +17,6 @@
 ★5 https://atcoder.jp/contests/typical90/tasks/typical90_am
 ★7 https://atcoder.jp/contests/typical90/tasks/typical90_an
 ★7 https://atcoder.jp/contests/typical90/tasks/typical90_ao
+★6 https://atcoder.jp/contests/typical90/tasks/typical90_as
 
 
