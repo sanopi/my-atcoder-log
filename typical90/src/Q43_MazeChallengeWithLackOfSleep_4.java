@@ -1,6 +1,7 @@
 import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ public class Q43_MazeChallengeWithLackOfSleep_4 {
     static int rt;
     static int ct;
     static char[][] g;
-    static int[][] costs;
+    static int[][][] costs;
 
     static Pair[] dirs = {new Pair(1, 0), new Pair(0, 1), new Pair(-1, 0), new Pair(0, -1)};
 
@@ -30,34 +31,41 @@ public class Q43_MazeChallengeWithLackOfSleep_4 {
             char[] wall = next().toCharArray();
             g[i] = wall;
         }
-        costs = new int[h][w];
+        costs = new int[h][w][4];
         for (int i = 0; i < h; i++) {
-            Arrays.fill(costs[i], -2);
+            for (int j = 0; j < w; j++) {
+                Arrays.fill(costs[i][j], Integer.MAX_VALUE);
+            }
         }
-        costs[s.x][s.y] = -1;
-        Queue<Pair> queue = new ArrayDeque<>();
-        queue.add(s);
-        while (queue.peek() != null) {
-            Pair point = queue.poll();
-            g[point.x][point.y] = '#';
-            int nextCost = costs[point.x][point.y] + 1;
-            for (Pair dir : dirs) {
-                Pair next = new Pair(point.x + dir.x, point.y + dir.y);
-                while (valid(next) && g[next.x][next.y] == '.') {
-                    if (costs[next.x][next.y] == -2) {
-                        costs[next.x][next.y] = nextCost;
-                        queue.add(next);
-                        if (next.x == rt && next.y == ct) {
-                            queue.clear();
-                            break;
-                        }
+        Arrays.fill(costs[s.x][s.y], 0);
+        Deque<Entity> deque = new ArrayDeque<>();
+        for (int i = 0; i < 4; i++) {
+            deque.offerLast(new Entity(s, i));
+        }
+        while (deque.peek() != null) {
+            Entity entity = deque.pollFirst();
+            Pair point = entity.point;
+            int dir = entity.dir;
+            for (int i = 0; i < 4; i++) {
+                Pair next = new Pair(point.x + dirs[i].x, point.y + dirs[i].y);
+                int nextCost = costs[point.x][point.y][dir] + (dir == i ? 0 : 1);
+                if (valid(next) && g[next.x][next.y] == '.' && costs[next.x][next.y][i] > nextCost) {
+                    costs[next.x][next.y][i] = nextCost;
+                    if (dir == i) {
+                        deque.offerFirst(new Entity(next, i));
+                    } else {
+                        deque.offerLast(new Entity(next, i));
                     }
-                    next = new Pair(next.x + dir.x, next.y + dir.y);
                 }
             }
         }
 
-        out.println(costs[rt][ct]);
+        int ans = Integer.MAX_VALUE;
+        for (int i = 0; i < 4; i++) {
+            ans = Math.min(ans, costs[rt][ct][i]);
+        }
+
+        out.println(ans);
         out.flush();
     }
 
@@ -74,6 +82,15 @@ public class Q43_MazeChallengeWithLackOfSleep_4 {
         Pair(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+    }
+
+    private static class Entity {
+        Pair point;
+        int dir;
+        Entity(Pair point, int dir) {
+            this.point = point;
+            this.dir = dir;
         }
     }
 
