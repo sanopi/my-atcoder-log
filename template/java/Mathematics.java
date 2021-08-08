@@ -1,8 +1,7 @@
 public class Mathematics {
 
-    private static long modPow(int a, int n, int mod) {
-        long[] exps = new long[32];
-        exps[0] = a;
+    private static long modPow(long a, long n, int mod) {
+        long x = a;
         long res = 1;
         int i = 0;
         while (true) {
@@ -11,9 +10,9 @@ public class Mathematics {
                 break;
             }
             if ((n & exp) != 0) {
-                res = (res * exps[i]) % mod;
+                res = (res * x) % mod;
             }
-            exps[i+1] = (exps[i] * exps[i]) % mod;
+            x = (x * x) % mod;
             i += 1;
         }
 
