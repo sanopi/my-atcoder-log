@@ -1,6 +1,9 @@
+import java.util.Arrays;
+
 class UnionFind {
     int[] parents; // 親（根）の情報を持つ
     int[] ranks; // 深さの最大値の情報を持つ（複雑度と同じくらいに考えておく。）
+    int[] sizes;
 
     UnionFind(int n) {
         parents = new int[n];
@@ -9,6 +12,8 @@ class UnionFind {
             parents[i] = i;
             ranks[i] = 0;
         }
+        sizes = new int[n];
+        Arrays.fill(sizes, 1);
     }
 
     private int find(int x) {
@@ -24,6 +29,10 @@ class UnionFind {
         return find(x) == find(y);
     }
 
+    private int size(int x) {
+        return sizes[find(x)];
+    }
+
     private void unite(int x, int y) {
         int xParent = find(x);
         int yParent = find(y);
@@ -35,11 +44,14 @@ class UnionFind {
         int yRank = ranks[yParent];
         if (xRank < yRank) {
             parents[xParent] = yParent;
+            sizes[yParent] += sizes[xParent];
         } else if (yRank < xRank) {
             parents[yParent] = xParent;
+            sizes[xParent] += sizes[yParent];
         } else { // xRank == yRank
             parents[xParent] = yParent;
             ranks[xParent]++;
+            sizes[yParent] += sizes[xParent];
         }
     }
 }
