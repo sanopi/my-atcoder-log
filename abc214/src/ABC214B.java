@@ -1,9 +1,22 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class JavaTemplate {
+public class ABC214B {
 
     public static void main(String[] args) {
+        int s = nextInt();
+        int t = nextInt();
+        int count = 0;
+        for (int a = 0; a <= 100; a++) {
+            for (int b = 0; b <= 100-a; b++) {
+                for (int c = 0; c <= 100-a-b; c++) {
+                    if (a + b + c <= s && a * b * c <= t) {
+                        count++;
+                    }
+                }
+            }
+        }
+        out.println(count);
 
         out.flush();
     }

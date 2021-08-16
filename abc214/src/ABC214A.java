@@ -1,10 +1,17 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class JavaTemplate {
+public class ABC214A {
 
     public static void main(String[] args) {
-
+        int n = nextInt();
+        if (n <= 125) {
+            out.println(4);
+        } else if (n <= 211) {
+            out.println(6);
+        } else {
+            out.println(8);
+        }
         out.flush();
     }
 
