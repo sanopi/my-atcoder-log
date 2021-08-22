@@ -27,4 +27,24 @@ public class Mathematics {
     private static long lcm(long a, long b) {
         return a * b / gcd(a, b);
     }
+
+    private static int[] getSmallestPrimeFactorArray(int size) {
+        int[] spf = new int[size+1];
+        for (int i = 0; i <= size; i++) {
+            spf[i] = i;
+        }
+        for (int i = 2; i <= size; i++) {
+            if (spf[i] == i) {
+                if ((long)i * (long)i > size) {
+                    continue;
+                }
+                for (int j = i * i; j <= size; j+=i) {
+                    if (spf[j] == j) {
+                        spf[j] = i;
+                    }
+                }
+            }
+        }
+        return spf;
+    }
 }
