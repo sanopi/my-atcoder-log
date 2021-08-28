@@ -38,6 +38,11 @@
 ★6 https://atcoder.jp/contests/typical90/tasks/typical90_cb
 ★5 https://atcoder.jp/contests/typical90/tasks/typical90_cc
 ★6 https://atcoder.jp/contests/typical90/tasks/typical90_ce
+★5 https://atcoder.jp/contests/typical90/tasks/typical90_ch
+★5 https://atcoder.jp/contests/typical90/tasks/typical90_ci
+★6 https://atcoder.jp/contests/typical90/tasks/typical90_cj
+★7 https://atcoder.jp/contests/typical90/tasks/typical90_ck
+★7 https://atcoder.jp/contests/typical90/tasks/typical90_cl
 
 
 
