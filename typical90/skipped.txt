@@ -6,6 +6,7 @@
 ★6 https://atcoder.jp/contests/typical90/tasks/typical90_s
 ★7 https://atcoder.jp/contests/typical90/tasks/typical90_w
 ★7 https://atcoder.jp/contests/typical90/tasks/typical90_y
+★5 https://atcoder.jp/contests/typical90/tasks/typical90_ac （遅延セグメント木）
 ★5 https://atcoder.jp/contests/typical90/tasks/typical90_ad
 ★6 https://atcoder.jp/contests/typical90/tasks/typical90_ae
 ★7 https://atcoder.jp/contests/typical90/tasks/typical90_ai

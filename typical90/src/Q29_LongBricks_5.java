@@ -9,6 +9,13 @@ import java.util.stream.Collectors;
 public class Q29_LongBricks_5 {
 
     public static void main(String[] args) {
+        solve1();
+    }
+
+    /**
+     * 座標圧縮による高速化
+     */
+    public static void solve1() {
         int w = nextInt();
         int n = nextInt();
 
