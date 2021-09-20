@@ -1,59 +1,45 @@
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ABC219C {
 
+    private static Map<Character, Integer> map;
+
     public static void main(String[] args) {
         String x = next();
-        Map<Character, Integer> map = new HashMap<>();
+        map = new HashMap<>();
         char[] chars = x.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             map.put(chars[i], i);
         }
         int n = nextInt();
 
-        String[] ss = new String[n];
+        String[] s = new String[n];
         for (int i = 0; i < n; i++) {
-            ss[i] = next();
+            s[i] = next();
         }
 
-        Stream<List<Integer>> tmp = Arrays.stream(ss)
-            .map(s -> {
-                List<Integer> list = new ArrayList<>();
-                for (final char c : s.toCharArray()) {
-                    list.add(map.get(c));
-                }
-                return list;
-            });
-
-        tmp.sorted((l1, l2) -> compare(l1, l2))
-            .forEach(l -> {
-                List<String> collect = l.stream()
-                    .map(i -> chars[i])
-                    .map(c -> c.toString())
-                    .collect(Collectors.toList());
-                out.println(String.join("", collect));
-            });
-
+        Arrays.sort(s, ((s1, s2) -> compare(s1, s2)));
+        for (final String s1 : s) {
+            out.println(s1);
+        }
         out.flush();
     }
 
-    static int compare(List<Integer> l1, List<Integer> l2) {
-        int min = Math.min(l1.size(), l2.size());
+    static int compare(String s1, String s2) {
+        int min = Math.min(s1.length(), s2.length());
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
         for (int i = 0; i < min; i++) {
-            if (l1.get(i).equals(l2.get(i))) {
+            if (map.get(c1[i]).equals(map.get(c2[i]))) {
                 continue;
             }
-            return l1.get(i).compareTo(l2.get(i));
+            return map.get(c1[i]).compareTo(map.get(c2[i]));
         }
-        return Integer.compare(l1.size(), l2.size());
+        return Integer.compare(s1.length(), s2.length());
     }
 
     static PrintWriter out = new PrintWriter(System.out);
