@@ -2,18 +2,18 @@ import java.util.Arrays;
 
 class MaxSegTree {
 
-    private static final int INF = Integer.MIN_VALUE;
+    private static final long INF = Long.MIN_VALUE;
 
     int n;
-    int[] tree;
-    int[] subTree;
+    long[] tree;
+    long[] subTree;
 
-    MaxSegTree(int[] array) {
+    MaxSegTree(long[] array) {
         int len = array.length;
         n = getSize(len);
-        tree = new int[2 * n - 1];
+        tree = new long[2 * n - 1];
         initTree(array, len);
-        subTree = new int[2 * n - 1];
+        subTree = new long[2 * n - 1];
         Arrays.fill(subTree, INF);
     }
 
@@ -25,7 +25,7 @@ class MaxSegTree {
         return exp;
     }
 
-    private void initTree(final int[] array, final int len) {
+    private void initTree(final long[] array, final int len) {
         Arrays.fill(tree, INF);
         for (int i = 0; i < len; i++) {
             tree[i + n - 1] = array[i]; // 葉のindexはn-1から2n-2まで
@@ -46,7 +46,7 @@ class MaxSegTree {
      * @param i     元の配列のindex
      * @param value 更新後の値
      */
-    public void updateValue(int i, int value) {
+    public void updateValue(int i, long value) {
         int index = i + n - 1;
         tree[index] = value;
         while (index > 0) {
@@ -55,7 +55,7 @@ class MaxSegTree {
         }
     }
 
-    public void updateRange(int l, int r, int value) {
+    public void updateRange(int l, int r, long value) {
         doUpdateRange(l, r, value, 0, 0, n);
     }
 
@@ -71,7 +71,7 @@ class MaxSegTree {
      * @param lEdge nodeが表す範囲の左端（inclusive）
      * @param rEdge nodeが表す範囲の右端（exclusive）
      */
-    public void doUpdateRange(int l, int r, int value, int node, int lEdge, int rEdge) {
+    public void doUpdateRange(int l, int r, long value, int node, int lEdge, int rEdge) {
         eval(node); // 以前の範囲更新の結果を先に反映させておく。
         if (rEdge <= l || r <= lEdge) { return; }
         if (l <= lEdge && rEdge <= r) {
@@ -92,7 +92,7 @@ class MaxSegTree {
      * @param l 左端（inclusive）
      * @param r 右端（exclusive）
      */
-    public int query(int l, int r) {
+    public long query(int l, int r) {
         return doQuery(Math.min(l, r), Math.max(l, r), 0, 0, n);
     }
 
@@ -107,7 +107,7 @@ class MaxSegTree {
      * @param lEdge nodeが表す範囲の左端（inclusive）
      * @param rEdge nodeが表す範囲の右端（exclusive）
      */
-    private int doQuery(int l, int r, int node, int lEdge, int rEdge) {
+    private long doQuery(int l, int r, int node, int lEdge, int rEdge) {
         eval(node);
         if (rEdge <= l || r <= lEdge) { return INF; }
         if (l <= lEdge && rEdge <= r) { return tree[node]; }
