@@ -75,7 +75,7 @@ public class Q51_TypicalShop_5 {
                 if (threshold < 0) {
                     continue;
                 }
-                int index = binarySearch(total2[k2].size(), -1, i -> total2[k2].get(i) < threshold+1);
+                int index = binarySearch(total2[k2].size(), -1, i -> total2[k2].get(i) <= threshold);
                 ans += (index+1);
             }
         }
