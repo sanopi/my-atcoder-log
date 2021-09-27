@@ -8,7 +8,7 @@ public class ABC220F {
     private static int n;
     private static ArrayList<Integer>[] g;
     private static int[] subCount;
-    private static int[] ans;
+    private static long[] ans;
 
     public static void main(String[] args) {
         n = nextInt();
@@ -24,13 +24,13 @@ public class ABC220F {
         }
         subCount = new int[n];
         Arrays.fill(subCount, 1);
-        ans = new int[n];
+        ans = new long[n];
 
         dfs(0, -1, 0);
 
         dfs2(0, -1);
 
-        for (final int res : ans) {
+        for (final long res : ans) {
             out.println(res);
         }
         out.flush();
