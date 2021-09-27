@@ -1,5 +1,4 @@
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ABC220D {
@@ -13,40 +12,18 @@ public class ABC220D {
         int[][] dp = new int[n][10];
         dp[0][a[0]] = 1;
 
-        ArrayList<Integer>[][] plus = new ArrayList[10][10];
-        ArrayList<Integer>[][] kakeru = new ArrayList[10][10];
-
-
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < n - 1; i++) {
+            int nextI = i + 1;
+            int ai1 = a[nextI];
             for (int j = 0; j < 10; j++) {
-                plus[i][j] = new ArrayList<>();
-                kakeru[i][j] = new ArrayList<>();
+                int f = (j + ai1) % 10;
+                dp[nextI][f] = (dp[nextI][f] + dp[i][j]) % MOD;
+                int g = (j * ai1) % 10;
+                dp[nextI][g] = (dp[nextI][g] + dp[i][j]) % MOD;
             }
         }
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                int k = (i + j) % 10;
-                plus[j][k].add(i);
-
-                int k2 = (i * j) % 10;
-                kakeru[j][k2].add(i);
-            }
-        }
-
-        for (int i = 1; i < n; i++) {
-            int ai = a[i];
-            for (int j = 0; j < 10; j++) {
-                for (final Integer integer : plus[ai][j]) {
-                    dp[i][j] = ((dp[i][j] + dp[i - 1][integer]) % MOD);
-                }
-                for (final Integer integer : kakeru[ai][j]) {
-                    dp[i][j] = ((dp[i][j] + dp[i - 1][integer]) % MOD);
-                }
-            }
-        }
-
-        for (final int i : dp[n-1]) {
+        for (final int i : dp[n - 1]) {
             out.println(i);
         }
         out.flush();
