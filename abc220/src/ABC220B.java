@@ -9,21 +9,16 @@ public class ABC220B {
         String b = next();
 
         long ai = 0;
-        char[] charsA = a.toCharArray();
-        int x = 1;
-        for (int i = charsA.length - 1; i >= 0; i--) {
-            int i1 = Integer.parseInt(Character.toString(charsA[i]));
-            ai += ((long) x * i1);
-            x *= k;
+        for (final char c : a.toCharArray()) {
+            ai *= k;
+            ai += (c - '0');
         }
 
+
         long bi = 0;
-        char[] charsB = b.toCharArray();
-        int y = 1;
-        for (int i = charsB.length - 1; i >= 0; i--) {
-            int i1 = Integer.parseInt(Character.toString(charsB[i]));
-            bi += ((long) y * i1);
-            y *= k;
+        for (final char c : b.toCharArray()) {
+            bi *= k;
+            bi += (c - '0');
         }
 
         out.println(ai * bi);
