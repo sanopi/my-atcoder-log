@@ -7,13 +7,8 @@ public class ABC220A {
         int a = nextInt();
         int b = nextInt();
         int c = nextInt();
-        for (int i = a; i <= b; i++) {
-            if (i % c == 0) {
-                System.out.println(i);
-                return;
-            }
-        }
-        System.out.println(-1);
+        int x = b/c * c;
+        out.println(a <= x ? x : -1);
         out.flush();
     }
 
