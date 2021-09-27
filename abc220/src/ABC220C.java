@@ -11,10 +11,10 @@ public class ABC220C {
 
         long sum = Arrays.stream(a).sum();
         long tmp = x / sum;
-        long l = x % sum;
+        long rest = x % sum;
         int i = 0;
-        while (l >= 0) {
-            l -= a[i];
+        while (rest >= 0) {
+            rest -= a[i];
             i++;
         }
         out.println((tmp * n) + i);
