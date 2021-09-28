@@ -1,6 +1,9 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
+
 public class JavaTemplate {
 
     public static void main(String[] args) {
