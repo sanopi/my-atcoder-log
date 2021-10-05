@@ -8,22 +8,23 @@ public class ABC221B {
     public static void main(String[] args) {
         char[] s = next().toCharArray();
         char[] t = next().toCharArray();
-        List<Integer> ind = new ArrayList<>();
-        for (int i = 0; i < s.length; i++) {
-            if (s[i] != t[i]) {
-                ind.add(i);
+        boolean ok = true;
+        int count = 0;
+        for (int i = 0; i < s.length - 1; i++) {
+            if (s[i] == t[i]) {
+                continue;
             }
+            if (s[i] == t[i+1] && s[i+1] == t[i]) {
+                i++;
+                count++;
+                continue;
+            }
+            ok = false;
+            break;
         }
 
-        if (ind.size() == 0) {
+        if (ok && count<=1) {
             out.println("Yes");
-        } else
-        if (ind.size() == 2) {
-            if (ind.get(0)+1 == ind.get(1) && s[ind.get(0)] == t[ind.get(1)] && s[ind.get(1)] == t[ind.get(0)]) {
-                out.println("Yes");
-            } else {
-                out.println("No");
-            }
         } else {
             out.println("No");
         }
