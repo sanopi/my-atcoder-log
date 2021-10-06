@@ -50,6 +50,26 @@ public class ABC221C {
         return max;
     }
 
+    /**
+     * 今をa,bとして、次をx、その次をyとした時、（x,yはソート済）
+     * (10a + x)b >= (10b + x)a...⓪
+     * であるならば
+     * (10(10a + x) + y)b...① もしくは (10b + y)(10a + x)...② の少なくとも一方が
+     * (10a + y)(10b + x)...③ と (10(10b + x) + y)a...④ の両方以上であることを示したい。（そうすれば帰納的に示せそう）
+     * ①=>100ab+10bx+by
+     * ②=>100ab+10ay+10bx+xy
+     * ③=>100ab+10ax+10by+xy
+     * ④=>100ab+10ax+ay
+     *
+     * ②-③=10ay+10bx-(10ax+10by)=10(ay+bx-ax-by)=10(a-b)(y-x)
+     * ⓪=> 10ab+bx>=10ab+ax => bx>=ax => b>=a なので、
+     * a-b<=0, y-x<=0（ソート済のため）
+     * ∴②-③>=0
+     *
+     * ②-④=10ay+10bx+xy-10ax-ay = 9ay+10bx+xy-10ax = 9ay+x(10b-10a+y) >= 9ay+x(10a-10a+y) > 0
+     *
+     * ②が③と④以上であることが分かった。
+     */
     private static long solve1(char[] n) {
         Arrays.sort(n);
         long a = n[n.length-1]-'0';
