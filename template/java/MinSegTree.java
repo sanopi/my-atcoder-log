@@ -8,7 +8,7 @@ class MinSegTree {
     long[] tree;
     long[] subTree;
 
-    MinSegTree(long[] array) {
+    private MinSegTree(long[] array) {
         int len = array.length;
         n = getSize(len);
         tree = new long[2 * n - 1];

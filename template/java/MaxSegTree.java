@@ -8,7 +8,7 @@ class MaxSegTree {
     long[] tree;
     long[] subTree;
 
-    MaxSegTree(long[] array) {
+    private MaxSegTree(long[] array) {
         int len = array.length;
         n = getSize(len);
         tree = new long[2 * n - 1];

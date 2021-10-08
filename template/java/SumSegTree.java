@@ -8,7 +8,7 @@ class SumSegTree {
     long[] tree;
     long[] subTree;
 
-    SumSegTree(long[] array) {
+    private SumSegTree(long[] array) {
         int len = array.length;
         n = getSize(len);
         tree = new long[2 * n - 1];
