@@ -1,9 +1,6 @@
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Scanner;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class Q68_PairedInformation_5 {
 
