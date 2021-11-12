@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class ABC226E {
 
-    private int n;
+    private static int n;
     private static int m;
     private static ArrayList<Integer>[] g;
     public static void main(String[] args) {
