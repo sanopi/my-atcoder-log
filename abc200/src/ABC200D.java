@@ -11,6 +11,58 @@ public class ABC200D {
     private static int[] a;
 
     public static void main(String[] args) {
+//        solve1();
+        solve2();
+        out.flush();
+    }
+
+    private static void solve2() {
+        int n = nextInt();
+        a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = nextInt() % MOD;
+        }
+        int max = Math.min(n, 8);
+        ArrayList<Integer>[] candidates = new ArrayList[MOD];
+        List<Integer> b = null;
+        List<Integer> c = null;
+        for (long i = 0; i < 1L << max; i++) {
+            ArrayList<Integer> list = new ArrayList<>();
+            for (int j = 0; j < max; j++) {
+                if ((i&(1<<j)) != 0) {
+                    list.add(j);
+                }
+            }
+            int sum = list.stream().mapToInt(k -> a[k]).sum() % MOD;
+            if (list.isEmpty()) {
+                continue;
+            }
+            Collections.sort(list);
+            if (candidates[sum] == null) {
+                candidates[sum] = list;
+            } else {
+                b = list;
+                c = candidates[sum];
+                break;
+            }
+        }
+        if (b == null) {
+            out.println("No");
+        } else {
+            out.println("Yes");
+            out.print(b.size() + " ");
+            for (final Integer integer : b) {
+                out.print((integer+1) + " ");
+            }
+            out.println();
+            out.print(c.size() + " ");
+            for (final Integer integer : c) {
+                out.print((integer+1) + " ");
+            }
+        }
+    }
+
+    private static void solve1() {
         int n = nextInt();
         a = nextIntArray(n);
 
@@ -47,7 +99,7 @@ public class ABC200D {
         back(index, point, b);
 
         List<Integer> c = new ArrayList<>();
-        if (a[index] % MOD == point && !dp[index-1][point]) {
+        if (a[index] % MOD == point && !dp[index - 1][point]) {
             c.add(index);
         }
         back(index - 1, point, c);
@@ -69,8 +121,6 @@ public class ABC200D {
         } else {
             out.println("No");
         }
-
-        out.flush();
     }
 
     private static void back(int i, int p, List<Integer> list) {
