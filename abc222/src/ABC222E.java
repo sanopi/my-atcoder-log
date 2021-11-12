@@ -44,7 +44,7 @@ public class ABC222E {
         int size = map.size();
         if (size != 0) {
             List<Integer> values = new ArrayList<>(map.values());
-            Integer sum = values.stream().reduce(0, Math::addExact);
+            int sum = values.stream().mapToInt(i -> i).sum();
             if (sum >= Math.abs(k)) {
                 int max = 2 * sum + 1;
                 int[][] dp = new int[size][max];
@@ -88,18 +88,18 @@ public class ABC222E {
         return res;
     }
 
-    private static boolean dfs(int s, int t, int prev, List<Pair> path) {
-        for (final Integer next : g[s]) {
+    private static boolean dfs(int current, int goal, int prev, List<Pair> path) {
+        for (final Integer next : g[current]) {
             if (next == prev) {
                 continue;
             }
-            if (next == t) {
-                path.add(new Pair(Math.min(s, t), Math.max(s, t)));
+            if (next == goal) {
+                path.add(new Pair(Math.min(current, goal), Math.max(current, goal)));
                 return true;
             }
-            boolean result = dfs(next, t, s, path);
+            boolean result = dfs(next, goal, current, path);
             if (result) {
-                path.add(new Pair(Math.min(s, next), Math.max(s, next)));
+                path.add(new Pair(Math.min(current, next), Math.max(current, next)));
                 return true;
             }
         }
