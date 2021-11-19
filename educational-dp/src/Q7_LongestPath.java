@@ -1,6 +1,7 @@
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Q7_LongestPath {
@@ -12,6 +13,53 @@ public class Q7_LongestPath {
     private static int[] lengths;
 
     public static void main(String[] args) {
+        // 実質一緒。再帰の中でやるか別でやるかの違い
+        memoRec();
+//        topologicalAndDp();
+    }
+    private static void topologicalAndDp() {
+        n = nextInt();
+        m = nextInt();
+        g = new ArrayList[n];
+        lengths = new int[n];
+        for (int i = 0; i < n; i++) {
+            g[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < m; i++) {
+            int x = nextInt() - 1;
+            int y = nextInt() - 1;
+            g[x].add(y);
+        }
+
+        boolean[] done = new boolean[n];
+        List<Integer> sorted = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (!done[i]) {
+                sort(i, sorted, done);
+            }
+        }
+
+        for (int i = 0; i < sorted.size(); i++) {
+            Integer current = sorted.get(i);
+            for (final Integer next : g[current]) {
+                lengths[current] = Math.max(lengths[current], lengths[next]+1);
+            }
+        }
+        out.println(Arrays.stream(lengths).max().orElseThrow());
+        out.flush();
+    }
+
+    private static void sort(int current, List<Integer> list, boolean[] done) {
+        for (final Integer next : g[current]) {
+            if (!done[next]) {
+                dfs(next);
+            }
+        }
+        list.add(current);
+        done[current] = true;
+    }
+
+    private static void memoRec() {
         n = nextInt();
         m = nextInt();
         g = new ArrayList[n];
