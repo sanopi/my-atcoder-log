@@ -1,7 +1,10 @@
 public class Mathematics {
 
     private static long modPow(long a, long n, int mod) {
-        long x = a;
+        long x = a % mod;
+        if (x == 0) {
+            return x;
+        }
         long res = 1;
         int i = 0;
         while (true) {
