@@ -1,28 +1,25 @@
-import java.util.function.Predicate;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 public class Algorithm {
 
-    private static long binarySearch(long ng, long ok, Predicate<Long> condition) {
-        while (Math.abs(ok - ng) > 1) {
-            long mid = (ok + ng) / 2;
-            if (condition.test(mid)) {
-                ok = mid;
-            } else {
-                ng = mid;
+    private static List<Integer> topologicalSort(List<Integer>[] graph) {
+        int[] inCount = new int[graph.length];
+        for (List<Integer> nexts : graph) { for (Integer next : nexts) { inCount[next]++; } }
+        // 必要に応じてPriorityQueueなどを使う
+        Queue<Integer> q = new ArrayDeque<>();
+        for (int i = 0; i < graph.length; i++) { if (inCount[i]==0) q.add(i); }
+        List<Integer> result = new ArrayList<>();
+        while (!q.isEmpty()) {
+            Integer node = q.poll();
+            result.add(node);
+            for (final Integer next : graph[node]) {
+                inCount[next]--;
+                if (inCount[next] == 0) { q.add(next); }
             }
         }
-        return condition.test(ok) ? ok : ng;
-    }
-
-    private static int binarySearch(int ng, int ok, Predicate<Integer> condition) {
-        while (Math.abs(ok - ng) > 1) {
-            int mid = (ok + ng) / 2;
-            if (condition.test(mid)) {
-                ok = mid;
-            } else {
-                ng = mid;
-            }
-        }
-        return condition.test(ok) ? ok : ng;
+        return result;
     }
 }

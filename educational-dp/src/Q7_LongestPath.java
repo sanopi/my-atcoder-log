@@ -1,7 +1,9 @@
 import java.io.PrintWriter;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Q7_LongestPath {
@@ -13,11 +15,6 @@ public class Q7_LongestPath {
     private static int[] lengths;
 
     public static void main(String[] args) {
-        // 実質一緒。再帰の中でやるか別でやるかの違い
-        memoRec();
-//        topologicalAndDp();
-    }
-    private static void topologicalAndDp() {
         n = nextInt();
         m = nextInt();
         g = new ArrayList[n];
@@ -26,11 +23,15 @@ public class Q7_LongestPath {
             g[i] = new ArrayList<>();
         }
         for (int i = 0; i < m; i++) {
-            int x = nextInt() - 1;
-            int y = nextInt() - 1;
-            g[x].add(y);
+            g[nextInt() - 1].add(nextInt() - 1);
         }
-
+        // 実質一緒。再帰の中でやるか別でやるかの違い
+//        memoRec();
+//        topologicalAndDp();
+        // 違う実装
+        topologicalAndDp2();
+    }
+    private static void topologicalAndDp() {
         boolean[] done = new boolean[n];
         List<Integer> sorted = new ArrayList<>();
         for (int i = 0; i < n; i++) {
@@ -59,17 +60,37 @@ public class Q7_LongestPath {
         done[current] = true;
     }
 
+    private static void topologicalAndDp2() {
+        List<Integer> sorted = tSort(g);
+        for (int i = sorted.size()-1; i >= 0; i--) {
+            Integer current = sorted.get(i);
+            for (final Integer next : g[current]) {
+                lengths[current] = Math.max(lengths[current], lengths[next]+1);
+            }
+        }
+        out.println(Arrays.stream(lengths).max().orElseThrow());
+        out.flush();
+    }
+
+    private static List<Integer> tSort(List<Integer>[] graph) {
+        int[] inCount = new int[graph.length];
+        for (List<Integer> nexts : graph) { for (Integer next : nexts) { inCount[next]++; } }
+        // 必要に応じてPriorityQueueなどを使う
+        Queue<Integer> q = new ArrayDeque<>();
+        for (int i = 0; i < graph.length; i++) { if (inCount[i]==0) q.add(i); }
+        List<Integer> result = new ArrayList<>();
+        while (!q.isEmpty()) {
+            Integer node = q.poll();
+            result.add(node);
+            for (final Integer next : graph[node]) {
+                inCount[next]--;
+                if (inCount[next] == 0) { q.add(next); }
+            }
+        }
+        return result;
+    }
+
     private static void memoRec() {
-        n = nextInt();
-        m = nextInt();
-        g = new ArrayList[n];
-        lengths = new int[n];
-        for (int i = 0; i < n; i++) {
-            g[i] = new ArrayList<>();
-        }
-        for (int i = 0; i < m; i++) {
-            g[nextInt()-1].add(nextInt()-1);
-        }
         for (int i = 0; i < n; i++) {
             if (lengths[i] == 0) {
                 dfs(i);
