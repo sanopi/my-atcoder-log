@@ -2,7 +2,6 @@ import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class Q43_MazeChallengeWithLackOfSleep_4 {

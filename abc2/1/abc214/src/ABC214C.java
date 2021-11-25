@@ -1,35 +1,44 @@
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class ABC221B {
+public class ABC214C {
 
     public static void main(String[] args) {
-        char[] s = next().toCharArray();
-        char[] t = next().toCharArray();
-        boolean ok = true;
-        int count = 0;
-        for (int i = 0; i < s.length - 1; i++) {
-            if (s[i] == t[i]) {
-                continue;
+        int n = nextInt();
+        int[] s = nextIntArray(n);
+        int[] t = nextIntArray(n);
+
+        int minIndex = 0;
+        for (int i = 0; i < n; i++) {
+            if (t[i] < t[minIndex]) {
+                minIndex = i;
             }
-            if (s[i] == t[i+1] && s[i+1] == t[i]) {
-                i++;
-                count++;
-                continue;
-            }
-            ok = false;
-            break;
         }
 
-        if (ok && count<=1) {
-            out.println("Yes");
-        } else {
-            out.println("No");
+
+        for (int i = minIndex+1; i < n; i++) {
+            int pre = i == 0 ? n-1 : i-1;
+            if (t[pre] + s[pre] < t[i]) {
+                t[i] = t[pre] + s[pre];
+            }
         }
+        for (int i = 0; i < minIndex; i++) {
+            int pre = i == 0 ? n-1 : i-1;
+            if (t[pre] + s[pre] < t[i]) {
+                t[i] = t[pre] + s[pre];
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            out.println(t[i]);
+        }
+
+
         out.flush();
     }
+
+
+
 
     static PrintWriter out = new PrintWriter(System.out);
     static Scanner scanner = new Scanner(System.in);

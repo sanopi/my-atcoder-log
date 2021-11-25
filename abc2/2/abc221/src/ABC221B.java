@@ -1,49 +1,33 @@
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
-public class ABC214C {
+public class ABC221B {
 
     public static void main(String[] args) {
-        int n = nextInt();
-        int[] s = nextIntArray(n);
-        int[] t = nextIntArray(n);
-
-        int minIndex = 0;
-        for (int i = 0; i < n; i++) {
-            if (t[i] < t[minIndex]) {
-                minIndex = i;
+        char[] s = next().toCharArray();
+        char[] t = next().toCharArray();
+        boolean ok = true;
+        int count = 0;
+        for (int i = 0; i < s.length - 1; i++) {
+            if (s[i] == t[i]) {
+                continue;
             }
-        }
-
-
-        for (int i = minIndex+1; i < n; i++) {
-            int pre = i == 0 ? n-1 : i-1;
-            if (t[pre] + s[pre] < t[i]) {
-                t[i] = t[pre] + s[pre];
+            if (s[i] == t[i+1] && s[i+1] == t[i]) {
+                i++;
+                count++;
+                continue;
             }
-        }
-        for (int i = 0; i < minIndex; i++) {
-            int pre = i == 0 ? n-1 : i-1;
-            if (t[pre] + s[pre] < t[i]) {
-                t[i] = t[pre] + s[pre];
-            }
+            ok = false;
+            break;
         }
 
-        for (int i = 0; i < n; i++) {
-            out.println(t[i]);
+        if (ok && count<=1) {
+            out.println("Yes");
+        } else {
+            out.println("No");
         }
-
-
         out.flush();
     }
-
-
-
 
     static PrintWriter out = new PrintWriter(System.out);
     static Scanner scanner = new Scanner(System.in);
