@@ -1,10 +1,15 @@
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ABC231E {
 
     private static long[] a;
     private static int n;
+
+    private static Map<Long, Long> memo = new HashMap<>();
+
     public static void main(String[] args) {
         n = nextInt();
         long x = nextLong();
@@ -15,23 +20,26 @@ public class ABC231E {
     }
 
     private static long dfs(long x, int i) {
-        if (i==n-1) {
-            return x/a[i];
+        if (memo.containsKey(x)) {
+            return memo.get(x);
         }
-        if (x == 0) {
-            return 0L;
-        }
+        if (i==n-1) return x/a[i];
+        if (x == 0) return 0L;
 
         long current = a[i];
         long next = a[i+1];
 
         // ぴったり払う
-        long l = dfs(x-x%next, i+1) + (x%next/current);
+        long nextRest = x % next;
+        long l = dfs(x-nextRest, i+1) + (nextRest /current);
         // xもnextもcurrentの倍数なので、 x%next/current は割り切れる。
 
         // お釣りを貰う
-        long ll = dfs(x-x%next+next, i+1) + ((-x%next+next)/current);
-        return Math.min(l, ll);
+        long addition = nextRest==0 ? 0 : -nextRest+next;
+        long ll = dfs(x+addition, i+1) + (addition/current);
+        long res = Math.min(l, ll);
+        memo.put(x, res);
+        return res;
     }
 
     static PrintWriter out = new PrintWriter(System.out);
