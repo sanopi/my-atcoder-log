@@ -20,14 +20,16 @@ public class ABC231F {
             pairs[i] = new Pair(a[i], b[i]);
         }
 
-        Arrays.sort(pairs, Comparator.comparing(p -> p.a));
+        Arrays.sort(pairs, Comparator.comparing((Pair p) -> p.a).thenComparing(p -> -p.b));
 
         var segTree = new SumSegTree(new long[n]);
-        int ans = 0;
+        long ans = 0;
         for (int i = 0; i < n; i++) {
             int targetB = pairs[i].b;
-            ans += (i+1-segTree.query(0, targetB+1));
-            segTree.addValue(targetB, 1);
+            int count = 1;
+            while (i<n-1 && pairs[i].equals(pairs[i+1])) {count++; i++;}
+            ans += count * (i+1-segTree.query(0, targetB));
+            segTree.addValue(targetB, count);
         }
         out.println(ans);
         out.flush();

@@ -1,7 +1,11 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class Algorithm {
 
@@ -21,5 +25,15 @@ public class Algorithm {
             }
         }
         return result;
+    }
+
+    private static int[] compress(int[] array) {
+        TreeSet<Integer> sortedElements = Arrays.stream(array).boxed().collect(Collectors.toCollection(TreeSet::new));
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int count = 0;
+        for (int element: sortedElements) map.put(element, count++);
+        int[] res = new int[array.length];
+        for (int i = 0; i < array.length; i++) res[i] = map.get(array[i]);
+        return res;
     }
 }
