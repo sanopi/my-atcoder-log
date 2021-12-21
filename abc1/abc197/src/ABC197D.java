@@ -1,9 +1,36 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import static java.lang.Math.atan2;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static java.lang.Math.toRadians;
+
 public class ABC197D {
 
     public static void main(String[] args) {
+//        solve1();
+        solve2();
+    }
+
+    private static void solve2() {
+        int n = nextInt();
+        double x0 = nextDouble();
+        double y0 = nextDouble();
+        double xn2 = nextDouble();
+        double yn2 = nextDouble();
+        double xo = (xn2 + x0)/2;
+        double yo = (yn2 + y0)/2;
+
+        // 回転
+        double angle = toRadians(360.0 / n);
+        double ansx = xo + (cos(angle)*(x0-xo)-sin(angle)*(y0-yo));
+        double ansy = yo + (sin(angle)*(x0-xo)+cos(angle)*(y0-yo));
+        System.out.println(ansx + " " + ansy);
+    }
+
+    private static void solve1() {
         int n = nextInt();
         int x0 = nextInt();
         int y0 = nextInt();
@@ -13,12 +40,12 @@ public class ABC197D {
         int xDiff = xn2 - x0;
         int yDiff = yn2 - y0;
 
-        double centerLen = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
-        double edgeLen = centerLen * Math.sin(Math.toRadians(180.0 / n));
+        double centerLen = sqrt(xDiff * xDiff + yDiff * yDiff);
+        double edgeLen = centerLen * sin(toRadians(180.0 / n));
 
-        double angle = Math.toRadians(90.0*(n-2) /n);
-        double angle1 = Math.atan2(yDiff, xDiff) - angle;
-        out.println((Math.cos(angle1)*edgeLen+x0) + " " + (Math.sin(angle1)*edgeLen+y0));
+        double angle = toRadians(90.0*(n-2) /n);
+        double angle1 = atan2(yDiff, xDiff) - angle;
+        out.println((cos(angle1)*edgeLen+x0) + " " + (sin(angle1)*edgeLen+y0));
         out.flush();
     }
 
