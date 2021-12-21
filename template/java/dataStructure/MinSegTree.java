@@ -1,14 +1,16 @@
+package dataStructure;
+
 import java.util.Arrays;
 
-class MaxSegTree {
+class MinSegTree {
 
-    private static final long INF = Long.MIN_VALUE;
+    private static final long INF = Long.MAX_VALUE;
 
     int n;
     long[] tree;
     long[] subTree;
 
-    private MaxSegTree(long[] array) {
+    private MinSegTree(long[] array) {
         int len = array.length;
         n = getSize(len);
         tree = new long[2 * n - 1];
@@ -36,7 +38,7 @@ class MaxSegTree {
     }
 
     private void updateNode(final int i) {
-        tree[i] = Math.max(tree[lChildOf(i)], tree[rChildOf(i)]);
+        tree[i] = Math.min(tree[lChildOf(i)], tree[rChildOf(i)]);
     }
 
     /**
@@ -61,8 +63,8 @@ class MaxSegTree {
 
     /**
      * 値を更新する範囲が、今調べている範囲より広い場合はそのまま更新する
+     * 値を更新する範囲が、今調べている範囲より狭い場合は子に対して再度このメソッドを実行する
      * 値を更新する範囲が、今調べている範囲と一切被らない場合は何もしない
-     * そうでない場合は子に対して再度このメソッドを実行する
      *
      * @param l 更新範囲の左端（inclusive）
      * @param r 更新範囲の右端（exclusive）
@@ -81,11 +83,11 @@ class MaxSegTree {
         }
         doUpdateRange(l, r, value, lChildOf(node), lEdge, (lEdge+rEdge)/2);
         doUpdateRange(l, r, value, rChildOf(node), (lEdge+rEdge)/2, rEdge);
-        tree[node] = Math.max(tree[lChildOf(node)], tree[rChildOf(node)]);
+        tree[node] = Math.min(tree[lChildOf(node)], tree[rChildOf(node)]);
     }
 
     /**
-     * 区間の最大値を求める
+     * 区間の最小値を求める
      * 実装的には、親から子に下りながら見る。
      *
      *
@@ -97,12 +99,12 @@ class MaxSegTree {
     }
 
     /**
-     * 最大値の欲しい範囲が、今調べているnodeと被っていなかったらINFを返す。
-     * 最大値の欲しい範囲が広かったら、nodeの値をそのまま返す。
-     * 最大値の欲しい範囲が狭かったら、nodeの子に対して再度このメソッドを実行する。
+     * 最小値の欲しい範囲が、今調べているnodeと被っていなかったらINFを返す。
+     * 最小値の欲しい範囲が広かったら、nodeの値をそのまま返す。
+     * 最小値の欲しい範囲が狭かったら、nodeの子に対して再度このメソッドを実行する。
      *
-     * @param l 最大値の欲しい範囲の左端（inclusive）
-     * @param r 最大値の欲しい範囲の右端（exclusive）
+     * @param l 最小値の欲しい範囲の左端（inclusive）
+     * @param r 最小値の欲しい範囲の右端（exclusive）
      * @param node 今調べているnode
      * @param lEdge nodeが表す範囲の左端（inclusive）
      * @param rEdge nodeが表す範囲の右端（exclusive）
@@ -111,7 +113,7 @@ class MaxSegTree {
         eval(node);
         if (rEdge <= l || r <= lEdge) { return INF; }
         if (l <= lEdge && rEdge <= r) { return tree[node]; }
-        return Math.max(
+        return Math.min(
             doQuery(l, r, lChildOf(node), lEdge, (lEdge+rEdge)/2),
             doQuery(l, r, rChildOf(node), (lEdge+rEdge)/2, rEdge)
         );

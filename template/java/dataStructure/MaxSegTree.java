@@ -1,20 +1,22 @@
+package dataStructure;
+
 import java.util.Arrays;
 
-class SumSegTree {
+class MaxSegTree {
 
-    private static final long UNIT = 0;
+    private static final long INF = Long.MIN_VALUE;
 
     int n;
     long[] tree;
     long[] subTree;
 
-    private SumSegTree(long[] array) {
+    private MaxSegTree(long[] array) {
         int len = array.length;
         n = getSize(len);
         tree = new long[2 * n - 1];
         initTree(array, len);
         subTree = new long[2 * n - 1];
-        Arrays.fill(subTree, UNIT);
+        Arrays.fill(subTree, INF);
     }
 
     private int getSize(final int len) {
@@ -26,7 +28,7 @@ class SumSegTree {
     }
 
     private void initTree(final long[] array, final int len) {
-        Arrays.fill(tree, UNIT);
+        Arrays.fill(tree, INF);
         for (int i = 0; i < len; i++) {
             tree[i + n - 1] = array[i]; // 葉のindexはn-1から2n-2まで
         }
@@ -36,11 +38,11 @@ class SumSegTree {
     }
 
     private void updateNode(final int i) {
-        tree[i] = tree[lChildOf(i)] + tree[rChildOf(i)];
+        tree[i] = Math.max(tree[lChildOf(i)], tree[rChildOf(i)]);
     }
 
     /**
-     * 元の配列に値を更新する。
+     * 元の配列の値を更新する。
      * 親のnodeに遡っての更新もする。
      *
      * @param i     元の配列のindex
@@ -49,22 +51,6 @@ class SumSegTree {
     public void updateValue(int i, long value) {
         int index = i + n - 1;
         tree[index] = value;
-        while (index > 0) {
-            index = parentOf(index);
-            updateNode(index);
-        }
-    }
-
-    /**
-     * 元の配列に値を足す。
-     * 親のnodeに遡っての更新もする。
-     *
-     * @param i     元の配列のindex
-     * @param value 足す値
-     */
-    public void addValue(int i, long value) {
-        int index = i + n - 1;
-        tree[index] += value;
         while (index > 0) {
             index = parentOf(index);
             updateNode(index);
@@ -91,47 +77,17 @@ class SumSegTree {
         eval(node); // 以前の範囲更新の結果を先に反映させておく。
         if (rEdge <= l || r <= lEdge) { return; }
         if (l <= lEdge && rEdge <= r) {
-            subTree[node] = (r-l) + value;
+            subTree[node] = value;
             eval(node);
             return;
         }
         doUpdateRange(l, r, value, lChildOf(node), lEdge, (lEdge+rEdge)/2);
         doUpdateRange(l, r, value, rChildOf(node), (lEdge+rEdge)/2, rEdge);
-        tree[node] = tree[lChildOf(node)] + tree[rChildOf(node)];
-    }
-
-    public void addRange(int l, int r, long value) {
-        doAddRange(l, r, value, 0, 0, n);
+        tree[node] = Math.max(tree[lChildOf(node)], tree[rChildOf(node)]);
     }
 
     /**
-     * 値を更新する範囲が、今調べている範囲より広い場合はそのまま更新する
-     * 値を更新する範囲が、今調べている範囲と一切被らない場合は何もしない
-     * そうでない場合は子に対して再度このメソッドを実行する
-     *
-     * @param l 更新範囲の左端（inclusive）
-     * @param r 更新範囲の右端（exclusive）
-     * @param value 更新後の値
-     * @param node 今更新しようとしているnode
-     * @param lEdge nodeが表す範囲の左端（inclusive）
-     * @param rEdge nodeが表す範囲の右端（exclusive）
-     */
-    public void doAddRange(int l, int r, long value, int node, int lEdge, int rEdge) {
-        eval(node); // 以前の範囲更新の結果を先に反映させておく。
-        if (rEdge <= l || r <= lEdge) { return; }
-        if (l <= lEdge && rEdge <= r) {
-            subTree[node] += ((r-l) * value);
-            eval(node);
-            return;
-        }
-        doAddRange(l, r, value, lChildOf(node), lEdge, (lEdge+rEdge)/2);
-        doAddRange(l, r, value, rChildOf(node), (lEdge+rEdge)/2, rEdge);
-        tree[node] = tree[lChildOf(node)] + tree[rChildOf(node)];
-    }
-
-
-    /**
-     * 区間の和を求める
+     * 区間の最大値を求める
      * 実装的には、親から子に下りながら見る。
      *
      *
@@ -143,32 +99,34 @@ class SumSegTree {
     }
 
     /**
-     * 和の欲しい範囲が、今調べているnodeと被っていなかったらINFを返す。
-     * 和の欲しい範囲が広かったら、nodeの値をそのまま返す。
-     * 和の欲しい範囲が狭かったら、nodeの子に対して再度このメソッドを実行する。
+     * 最大値の欲しい範囲が、今調べているnodeと被っていなかったらINFを返す。
+     * 最大値の欲しい範囲が広かったら、nodeの値をそのまま返す。
+     * 最大値の欲しい範囲が狭かったら、nodeの子に対して再度このメソッドを実行する。
      *
-     * @param l 最小値の欲しい範囲の左端（inclusive）
-     * @param r 最小値の欲しい範囲の右端（exclusive）
+     * @param l 最大値の欲しい範囲の左端（inclusive）
+     * @param r 最大値の欲しい範囲の右端（exclusive）
      * @param node 今調べているnode
      * @param lEdge nodeが表す範囲の左端（inclusive）
      * @param rEdge nodeが表す範囲の右端（exclusive）
      */
     private long doQuery(int l, int r, int node, int lEdge, int rEdge) {
         eval(node);
-        if (rEdge <= l || r <= lEdge) { return UNIT; }
+        if (rEdge <= l || r <= lEdge) { return INF; }
         if (l <= lEdge && rEdge <= r) { return tree[node]; }
-        return doQuery(l, r, lChildOf(node), lEdge, (lEdge+rEdge)/2) +
-            doQuery(l, r, rChildOf(node), (lEdge+rEdge)/2, rEdge);
+        return Math.max(
+            doQuery(l, r, lChildOf(node), lEdge, (lEdge+rEdge)/2),
+            doQuery(l, r, rChildOf(node), (lEdge+rEdge)/2, rEdge)
+        );
     }
 
     private void eval(int node) {
-        if (subTree[node] == UNIT) { return; }
+        if (subTree[node] == INF) { return; }
         if (node < n - 1) { // 葉ではない場合
-            subTree[lChildOf(node)] += subTree[node]/2;
-            subTree[rChildOf(node)] += subTree[node]/2;
+            subTree[lChildOf(node)] = subTree[node];
+            subTree[rChildOf(node)] = subTree[node];
         }
-        tree[node] += subTree[node];
-        subTree[node] = UNIT;
+        tree[node] = subTree[node];
+        subTree[node] = INF;
     }
 
     private int lChildOf(int i) {
