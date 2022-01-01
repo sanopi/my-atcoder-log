@@ -1,25 +1,19 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class ABC106C {
+public class ABC120C {
 
     public static void main(String[] args) {
         String s = next();
-        long k = nextLong();
         char[] chars = s.toCharArray();
-        int oneLen = 0;
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '1') {
-                oneLen++;
-            } else {
-                break;
+        int count = 0;
+        for (final char c : chars) {
+            if (c == '0') {
+                count++;
             }
         }
-        if (oneLen >= k) {
-            System.out.println(1);
-        } else {
-            System.out.println(chars[oneLen]);
-        }
+        out.println(Math.min(s.length()-count, count)*2);
+        out.flush();
     }
 
     static PrintWriter out = new PrintWriter(System.out);
