@@ -1,6 +1,4 @@
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class ABC202D {
@@ -15,13 +13,10 @@ public class ABC202D {
         }
     }
 
-    private static long k;
-    private static List<Character> chars = new ArrayList<>();
-
     public static void main(String[] args) {
         int a = nextInt();
         int b = nextInt();
-        k = nextLong();
+        long k = nextLong();
 
         StringBuilder sb = new StringBuilder();
 
