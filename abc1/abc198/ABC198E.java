@@ -1,14 +1,12 @@
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class ABC198E {
 
-    private static final Map<Integer, Integer> appeared = new HashMap();
     private static ArrayList<Integer>[] tree;
     private static int[] c;
+    private static int[] colorCount = new int[100001];
 
     private static boolean[] ans;
 
@@ -35,13 +33,13 @@ public class ABC198E {
     }
 
     private static void dfs(int current, int prev) {
-        ans[current] = appeared.getOrDefault(c[current], 0) == 0;
-        appeared.put(c[current], appeared.getOrDefault(c[current], 0)+1);
+        ans[current] = colorCount[c[current]] == 0;
+        colorCount[c[current]]++;
         for (Integer next : tree[current]) {
             if (next.equals(prev)) continue;
             dfs(next, current);
         }
-        appeared.put(c[current], appeared.getOrDefault(c[current], 0)-1);
+        colorCount[c[current]]--;
     }
 
 
