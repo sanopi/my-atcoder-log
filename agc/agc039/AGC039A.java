@@ -20,6 +20,32 @@ public class AGC039A {
             return;
         }
 
+//        solve1(s, k);
+        solve2(s, k);
+        out.flush();
+    }
+    private static void solve2(String s, long k) {
+        int count1 = 0;
+        char[] sc = s.toCharArray();
+        for (int i = 0; i < sc.length-1; i++) {
+            if (sc[i] == sc[i+1]) {
+                sc[i+1] = ' ';
+                count1++;
+            }
+        }
+        int count2 = 0;
+        char[] ss = s.repeat(2).toCharArray();
+        for (int i = 0; i < ss.length-1; i++) {
+            if (ss[i] == ss[i+1]) {
+                ss[i+1] = ' ';
+                count2++;
+            }
+        }
+        int diff = count2 - count1;
+        out.println(count1+diff*(k-1));
+    }
+    private static void solve1(String s, long k) {
+        int n = s.length();
         char[] ss = s.repeat(3).toCharArray();
         for (int i = 0; i < ss.length-1; i++) {
             if (ss[i] == ss[i+1]) {
@@ -29,14 +55,13 @@ public class AGC039A {
         int[] counts = new int[3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < n; j++) {
-                int l = n*i+j;
+                int l = n *i+j;
                 if (ss[l] == ' ') {
                     counts[i]++;
                 }
             }
         }
-        out.println(counts[0] + Math.max(k-2, 0)*counts[1] + Math.min(k-1, 1)*counts[2]);
-        out.flush();
+        out.println(counts[0] + Math.max(k -2, 0)*counts[1] + Math.min(k -1, 1)*counts[2]);
     }
 
     static PrintWriter out = new PrintWriter(System.out);
