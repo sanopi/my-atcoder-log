@@ -7,6 +7,25 @@ public class CodeFestival2016FinalB {
 
     public static void main(String[] args) {
         int n = nextInt();
+//        solve1(n);
+        solve2(n);
+        out.flush();
+    }
+    private static void solve2(int n) {
+        int i = 1;
+        List<Integer> ints = new ArrayList<>();
+        int sum = 1;
+        ints.add(1);
+        while (sum < n) {
+            i++;
+            ints.add(i);
+            sum+=i;
+        }
+        ints.remove((Integer) (sum-n));
+
+        ints.forEach(out::println);
+    }
+    private static void solve1(int n) {
         int i = 1;
         List<Integer> ints = new ArrayList<>();
         int sum = 1;
@@ -23,7 +42,6 @@ public class CodeFestival2016FinalB {
             ints.set(k, ints.get(k)+((size-k)<=j?1:0));
         }
         ints.forEach(out::println);
-        out.flush();
     }
 
     static PrintWriter out = new PrintWriter(System.out);
