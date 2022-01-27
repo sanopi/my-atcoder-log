@@ -7,20 +7,43 @@ public class ABC130D {
         int n = nextInt();
         long k = nextLong();
         int[] a = nextIntArray(n);
-        long[] sum = new long[n+1];
-        for (int i = 1; i < n+1; i++) {
+//        solve1(n, k, a);
+        solve2(n, k, a);
+        out.flush();
+    }
+
+    private static void solve2(int n, long k, int[] a) {
+        int r = 0;
+        long sum = 0;
+        long ans = 0;
+        for (int l = 0; l < n; l++) {
+            while (sum < k && r < n) {
+                sum+=a[r];
+                r++;
+            }
+            if (sum < k) {
+                break;
+            }
+            ans += n-r+1;
+            sum-=a[l];
+        }
+        out.println(ans);
+    }
+
+    private static void solve1(int n, long k, int[] a) {
+        long[] sum = new long[n +1];
+        for (int i = 1; i < n +1; i++) {
             sum[i] = a[i-1]+sum[i-1];
         }
         long ans = 0;
-        for (int i = 1; i < n+1; i++) {
-            long point = sum[i]-k;
+        for (int i = 1; i < n +1; i++) {
+            long point = sum[i]- k;
             if (point < 0){
                 continue;
             }
             ans += lowerBind(sum, point)+1;
         }
         out.println(ans);
-        out.flush();
     }
 
     private static int lowerBind(long[] sum, long point) {
