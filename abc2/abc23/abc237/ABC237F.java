@@ -13,7 +13,41 @@ public class ABC237F {
     public static void main(String[] args) {
         int n = nextInt();
         int m = nextInt();
+        int ans;
+//        ans = solve1(n, m);
+        ans = solve2(n, m);
+        out.println(ans);
+        out.flush();
+    }
+    private static int solve2(int n, int m) {
+        int[][][][] dp = new int[n+1][m+1][m+1][m+1];
+        dp[0][m][m][m] = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m+1; j++) {
+                for (int k = j; k < m+1; k++) {
+                    for (int l = k; l < m+1; l++) {
+                        for (int x = 0; x < m; x++) {
+                            if (x<=j) dp[i+1][x][k][l] = (dp[i+1][x][k][l] + dp[i][j][k][l])%MOD;
+                            else if (x <= k) dp[i+1][j][x][l] = (dp[i+1][j][x][l] + dp[i][j][k][l])%MOD;
+                            else if (x <= l) dp[i+1][j][k][x] = (dp[i+1][j][k][x] + dp[i][j][k][l])%MOD;
+                        }
+                    }
+                }
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 0; k < m; k++) {
+                    ans += dp[n][i][j][k];
+                    ans %= MOD;
+                }
+            }
+        }
+        return ans;
+    }
 
+    private static int solve1(int n, int m) {
         Map<Fixture, Integer>[][] dp = new Map[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -58,8 +92,7 @@ public class ABC237F {
             ans += aLong;
             ans %= MOD;
         }
-        out.println(ans);
-        out.flush();
+        return ans;
     }
 
     private static class Fixture {
