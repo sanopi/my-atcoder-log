@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -9,6 +10,17 @@ public class CodeFestival2016QualcB {
         int k = nextInt();
         int t = nextInt();
         int[] a = nextIntArray(t);
+        int ans;
+//        ans = solve1(k, t, a);
+        ans = solve2(k, t, a);
+        out.println(ans);
+        out.flush();
+    }
+    private static int solve2(int k, int t, int[] a) {
+        int max = Arrays.stream(a).max().getAsInt();
+        return Math.max(2*max-k-1, 0);
+    }
+    private static int solve1(int k, int t, int[] a) {
         PriorityQueue<Cake> pq = new PriorityQueue<>(Comparator.comparing(cake -> -cake.rest));
         for (int i = 0; i < t; i++) {
             pq.add(new Cake(i, a[i]));
@@ -34,8 +46,7 @@ public class CodeFestival2016QualcB {
             }
             if (cake.rest>0) pq.add(cake);
         }
-        out.println(count);
-        out.flush();
+        return count;
     }
 
     private static class Cake {
