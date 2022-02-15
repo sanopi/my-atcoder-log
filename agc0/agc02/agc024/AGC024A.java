@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class AGC124A {
+public class AGC024A {
 
     public static void main(String[] args) {
         long a = nextLong();
