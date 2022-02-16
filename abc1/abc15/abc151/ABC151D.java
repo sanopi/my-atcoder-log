@@ -83,14 +83,6 @@ public class ABC151D {
         private boolean isValid() {
             return 0 <= x && x < h && 0 <= y && y < w && g[x][y]=='.';
         }
-        @Override
-        public String toString() {
-            return "S{" +
-                "x=" + x +
-                ", y=" + y +
-                ", count=" + count +
-                '}';
-        }
     }
 
     static PrintWriter out = new PrintWriter(System.out);
