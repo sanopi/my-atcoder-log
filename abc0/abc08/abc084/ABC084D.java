@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ABC084D {
@@ -6,10 +7,8 @@ public class ABC084D {
     public static void main(String[] args) {
         int MAX = 100000;
         int[] sum = new int[MAX+1];
-        for (int i = 3; i <= MAX; i++) {
-            sum[i]=sum[i-1]+(isOk(i)?1:0);
-
-        }
+//        createSum(MAX, sum);
+        createSum2(MAX, sum);
         int q = nextInt();
         for (int i = 0; i < q; i++) {
             int l = nextInt();
@@ -17,6 +16,27 @@ public class ABC084D {
             out.println(sum[r]-sum[l-1]);
         }
         out.flush();
+    }
+    private static void createSum2(int max, int[] sum) {
+        boolean[] primes = new boolean[max+1];
+        Arrays.fill(primes, true);
+        for (int i = 2; i <= max; i++) {
+            if (primes[i]) {
+                for (int j = i*2; j <= max; j+=i) {
+                    primes[j]=false;
+                }
+            }
+        }
+        for (int i = 2; i <= max; i++) {
+            sum[i] = sum[i-1]+ (i%2==1&&primes[i]&&primes[(i+1)/2]?1:0);
+        }
+    }
+
+    private static void createSum(int MAX, int[] sum) {
+        for (int i = 3; i <= MAX; i++) {
+            sum[i]= sum[i-1]+(isOk(i)?1:0);
+
+        }
     }
 
     private static boolean isOk(int n) {
