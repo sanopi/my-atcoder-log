@@ -25,9 +25,9 @@ public class ABC079D {
     }
     private static long solve2(int h, int w, int[][] c) {
         // ワーシャルフロイド
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                for (int k = 0; k < 10; k++) {
+        for (int k = 0; k < 10; k++) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
                     c[i][j] = Math.min(c[i][j], c[i][k] + c[k][j]);
                 }
             }
