@@ -12,6 +12,7 @@ public class ABC239E {
     private static int n;
     private static int q;
 
+    //別方針もあるよ https://atcoder.jp/contests/abc239/submissions/29476647
     public static void main(String[] args) {
         n = nextInt();
         q = nextInt();
