@@ -23,7 +23,7 @@ public class ABC161D {
         int keta = 1;
         while (lunlun.size() < k) {
             for (long i = 1; i < 10; i++) {
-                lunlun.addAll(dfs(i, keta-1));
+                lunlun.addAll(create(i, keta-1));
                 if (lunlun.size()>=k) {
                     break;
                 }
@@ -34,13 +34,13 @@ public class ABC161D {
         out.flush();
     }
 
-    private static List<Long> dfs(long i, int keta) {
+    private static List<Long> create(long i, int keta) {
         if (keta == 0) {
             return List.of(i);
         }
         List<Long> res = new ArrayList<>();
         for (Integer next : nexts[(int)i % 10]) {
-            res.addAll(dfs(i*10+next, keta-1));
+            res.addAll(create(i*10+next, keta-1));
         }
         return res;
     }
