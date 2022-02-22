@@ -1,19 +1,22 @@
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class ABC112D {
 
     public static void main(String[] args) {
-        long n = nextInt();
-        long m = nextInt();
-        long ans = 1;
+        int n = nextInt();
+        int m = nextInt();
+        List<Integer> divs = new ArrayList<>();
         for (int i = 1; (long) i *i <= m; i++) {
             if (m%i==0) {
-                ans = Math.max(ans, i*n <=m ?i:0);
-                ans = Math.max(ans, m/i*n <=m ? m/i :0);
+                divs.add(i);
+                divs.add(m/i);
             }
         }
-        out.println(ans);
+        out.println(divs.stream().filter(d -> m / d >= n).max(Comparator.naturalOrder()).get());
         out.flush();
     }
 
