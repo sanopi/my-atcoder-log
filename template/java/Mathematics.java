@@ -1,5 +1,25 @@
 public class Mathematics {
 
+    /**
+     * n*(n-1)*...*(n-k+1)
+     * を
+     * (n-k)!で割る
+     */
+    private static long modCombination(long n, long k, int mod) {
+        long numerator = modFact(n, n-k, mod);
+        long denominator = modFact(k, 1, mod);
+        long invDenominator = modPow(denominator, mod - 2, mod);
+
+        return numerator * invDenominator % mod;
+    }
+
+    private static long modFact(long from, long toEx, int mod) {
+        if (from == toEx) {
+            return 1;
+        }
+        return from * modFact(from-1, toEx, mod) % mod;
+    }
+
     private static long modPow(long a, long n, int mod) {
         long x = a % mod;
         if (x == 0) {
