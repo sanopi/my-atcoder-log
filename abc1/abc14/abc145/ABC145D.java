@@ -20,16 +20,30 @@ public class ABC145D {
         if (Math.min(k, l) == 0) {
             out.println(1);
         } else {
-            out.println(fact(k+l, k+1, MOD) * modPow(fact(l, 1, MOD), MOD-2, MOD) % MOD);
+            long n = k + l;
+            out.println(modCombination(n, k, MOD));
         }
         out.flush();
     }
 
-    private static long fact(long a, long b, int MOD) {
-        if (a == b) {
-            return a;
+    /**
+     * n*(n-1)*...*(n-k+1)
+     * を
+     * (n-k)!で割る
+     */
+    private static long modCombination(long n, long k, int mod) {
+        long numerator = modFact(n, n-k, mod);
+        long denominator = modFact(k, 1, mod);
+        long invDenominator = modPow(denominator, mod - 2, mod);
+
+        return numerator * invDenominator % mod;
+    }
+
+    private static long modFact(long from, long toEx, int mod) {
+        if (from == toEx) {
+            return 1;
         }
-        return a * fact(a-1, b, MOD) % MOD;
+        return from * modFact(from-1, toEx, mod) % mod;
     }
 
     private static long modPow(long a, long n, int mod) {
