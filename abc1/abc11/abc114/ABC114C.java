@@ -1,15 +1,36 @@
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ABC114C {
 
     public static void main(String[] args) {
         int n = nextInt();
-        int ans = 0;
+        long ans = 0;
 //        ans = solve1(n);
-        ans = solve2(n);
+//        ans = solve2(n);
+        ans = solve3(n);
         out.println(ans);
         out.flush();
+    }
+
+    private static long solve3(int n) {
+        return rec(0L, n).count();
+    }
+
+    private static Stream<Long> rec(Long num, int n) {
+        if (num > n) {
+            return Stream.of();
+        }
+        List<Long> nexts = List.of(3, 5, 7).stream()
+            .map(last -> num * 10 + last)
+            .collect(Collectors.toList());
+        return Stream.concat(
+            nexts.stream().filter(next -> next<=n).filter(next -> isValid(next)),
+            nexts.stream().flatMap(next -> rec(next, n))
+        );
     }
 
     private static int solve2(int n) {
@@ -61,6 +82,9 @@ public class ABC114C {
         return String.valueOf(chars);
     }
 
+    private static boolean isValid(Long l) {
+        return isValid(Long.toString(l));
+    }
     private static boolean isValid(String s) {
         boolean three = false;
         boolean five = false;
