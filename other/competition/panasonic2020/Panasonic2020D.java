@@ -16,8 +16,7 @@ public class Panasonic2020D {
         if (n==1) {
             return List.of(s);
         }
-        return IntStream.range(0, 11)
-            .filter(i -> i <= max+1)
+        return IntStream.range(0, max+2)
             .mapToObj(i -> solve(s + Character.toString((char) i + 'a'), Math.max(max, i),n - 1))
             .flatMap(List::stream)
             .collect(Collectors.toList());
