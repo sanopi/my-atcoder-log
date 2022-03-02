@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.stream.LongStream;
 
@@ -7,7 +8,23 @@ public class ABC102C {
     public static void main(String[] args) {
         int n = nextInt();
         int[] a = nextIntArray(n);
+        long ans;
 
+        ans = solve2(a);
+//        ans = solve1(a);
+        out.println(ans);
+        out.flush();
+    }
+
+    private static long solve2(int[] a) {
+        for (int i = 0; i < a.length; i++) {
+            a[i]-=i+1;
+        }
+        Arrays.sort(a);
+        return calc2(a[a.length/2], a);
+    }
+
+    private static long solve1(int[] a) {
         long min = Integer.MIN_VALUE;
         long max = Integer.MAX_VALUE;
         while (Math.abs(min-max)>2) {
@@ -19,10 +36,16 @@ public class ABC102C {
                 min = point1;
             }
         }
-        out.println(LongStream.range(min, max+1).map(l -> calc(l, a)).min().getAsLong());
-        out.flush();
+        return LongStream.range(min, max + 1).map(l -> calc(l, a)).min().getAsLong();
     }
 
+    private static long calc2(long b, int[] array) {
+        long res = 0;
+        for (int i = 0; i < array.length; i++) {
+            res += Math.abs(b-array[i]);
+        }
+        return res;
+    }
     private static long calc(long b, int[] array) {
         long res = 0;
         for (int i = 0; i < array.length; i++) {
