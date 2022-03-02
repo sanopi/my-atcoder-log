@@ -1,38 +1,17 @@
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-public class CADDI2018A {
+public class CADDI2018D {
 
     public static void main(String[] args) {
-        long n = nextLong();
-        long p = nextLong();
-        Map<Long, Integer> counts = new HashMap<>();
-        for (long i = 2; i*i <= p; i++) {
-            while (p%i==0) {
-                p/=i;
-                counts.put(i, counts.getOrDefault(i, 0)+1);
-            }
+        int n = nextInt();
+        int[] a = nextIntArray(n);
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += a[i]%2;
         }
-        counts.put(p, counts.getOrDefault(p, 0)+1);
-
-        System.out.println(counts.entrySet()
-            .stream()
-            .filter(entry -> entry.getValue() / n > 0)
-            .map(entry -> exp(entry.getKey(), entry.getValue()/n))
-            .reduce(1L, Math::multiplyExact)
-        );
+        out.println(sum!=0?"first":"second");
         out.flush();
-    }
-
-    private static long exp(long a, long b) {
-        long res = 1;
-        while (b>0) {
-            res *= a;
-            b--;
-        }
-        return res;
     }
 
     static PrintWriter out = new PrintWriter(System.out);
