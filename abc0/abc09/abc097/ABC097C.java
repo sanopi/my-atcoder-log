@@ -11,11 +11,31 @@ public class ABC097C {
         String s = next();
         int k = nextInt();
 
-        List<String> rec = rec(s, k);
-        rec.sort(Comparator.naturalOrder());
-        out.println(rec.get(k-1));
+//        solve1(s, k);
+        solve2(s, k);
 
         out.flush();
+    }
+
+    private static void solve2(String s, int k) {
+        List<String> subStrings = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = i+1; j <= Math.min(s.length(), i+k); j++) {
+                subStrings.add(s.substring(i, j));
+            }
+        }
+        String ans = subStrings.stream()
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList())
+            .get(k - 1);
+        out.println(ans);
+    }
+
+    private static void solve1(String s, int k) {
+        List<String> rec = rec(s, k);
+        rec.sort(Comparator.naturalOrder());
+        out.println(rec.get(k -1));
     }
 
     private static List<String> rec(String s, int k) {
