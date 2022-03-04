@@ -8,8 +8,11 @@ public class ABC090D {
         int k = nextInt();
         long ans = 0;
         for (int b = k+1; b <= n; b++) {
-            ans += (long) Math.max(0, n/b) * (b-k);
+            // k ~ b-1 が n/b 回
+            ans += (long) n/b * (b-k);
+            // k ~ n%b が 1 回
             ans += Math.max(0, n%b-k+1);
+            // k==0の時、上記のコードでa==0が一回カウントされる。
             ans -= k==0?1:0;
         }
         out.println(ans);
