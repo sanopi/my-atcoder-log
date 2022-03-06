@@ -7,12 +7,41 @@ import java.util.Scanner;
 public class ABC242D {
 
     private static final Map<Character, List<Character>> map = new HashMap<>();
+    private static String s;
 
     public static void main(String[] args) {
+//        solve1();
+        solve2();
+        out.flush();
+    }
+    private static void solve2() {
+        s = next();
+        int q = nextInt();
+        for (int i = 0; i < q; i++) {
+            long t = nextLong();
+            long k = nextLong()-1;
+            out.println(rec(t, k));
+        }
+    }
+
+    private static char rec(long t, long k) {
+        if (t==0) {
+            return s.charAt((int)k);
+        }
+        if (k == 0) {
+            return (char)((s.charAt(0)-'A'+t%3)%3+'A');
+        }
+        if (k%2==0) {
+            return (char)((rec(t-1, k/2)-'A'+1)%3+'A');
+        } else {
+            return (char)((rec(t-1, k/2)-'A'+2)%3+'A');
+        }
+    }
+
+    private static void solve1() {
         map.put('A', List.of('B', 'C'));
         map.put('B', List.of('C', 'A'));
         map.put('C', List.of('A', 'B'));
-//        System.out.println(Integer.toString(13, 2));
         String s = next();
         int q = nextInt();
         for (int i = 0; i < q; i++) {
@@ -44,7 +73,6 @@ public class ABC242D {
             }
             out.println(current);
         }
-        out.flush();
     }
 
     static PrintWriter out = new PrintWriter(System.out);
