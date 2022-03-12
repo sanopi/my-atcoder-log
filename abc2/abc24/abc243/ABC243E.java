@@ -41,7 +41,24 @@ public class ABC243E {
             }
         }
 
+//        solve1(edges, cost, mawari);
+        solve2(edges, cost);
+        out.flush();
+    }
+    private static void solve2(Edge[] edges, int[][] cost) {
+        int count = 0;
+        for (Edge edge : edges) {
+            for (int i = 0; i < cost.length; i++) {
+                if (cost[edge.a][i] + cost[i][edge.b] <= edge.c) {
+                    count++;
+                    break;
+                }
+            }
+        }
+        out.println(count);
+    }
 
+    private static void solve1(Edge[] edges, int[][] cost, boolean[][] mawari) {
         int count = 0;
         for (Edge edge : edges) {
             if (cost[edge.a][edge.b] < edge.c || (cost[edge.a][edge.b] == edge.c && mawari[edge.a][edge.b])) {
@@ -50,7 +67,6 @@ public class ABC243E {
         }
 
         out.println(count);
-        out.flush();
     }
 
     private static class Edge {
