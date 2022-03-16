@@ -6,8 +6,9 @@ public class Mathematics {
      * (n-k)!で割る
      */
     private static long modCombination(long n, long k, int mod) {
+        if (n<k) return 0;
         long numerator = modFact(n, n-k, mod);
-        long denominator = modFact(k, 1, mod);
+        long denominator = modFact(k, 0, mod);
         long invDenominator = modPow(denominator, mod - 2, mod);
 
         return numerator * invDenominator % mod;

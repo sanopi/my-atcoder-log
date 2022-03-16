@@ -15,8 +15,8 @@ public class ABC132D {
     private static void solve2(int n, int k) {
         int r = n-k;
         for (int i = 0; i < k; i++) {
-            long blue = i>0&&k-1>i?modCombination(k-1, i, MOD):1;
-            long red = r+1>i+1?modCombination(r+1, i+1, MOD):r+1==i+1?1:0;
+            long blue = modCombination(k-1, i, MOD);
+            long red = modCombination(r+1, i+1, MOD);
             out.println(blue*red%MOD);
         }
     }
@@ -51,8 +51,9 @@ public class ABC132D {
     }
 
     private static long modCombination(long n, long k, int mod) {
+        if (n<k) return 0;
         long numerator = modFact(n, n-k, mod);
-        long denominator = modFact(k, 1, mod);
+        long denominator = modFact(k, 0, mod);
         long invDenominator = modPow(denominator, mod - 2, mod);
 
         return numerator * invDenominator % mod;
