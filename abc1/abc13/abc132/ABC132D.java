@@ -8,12 +8,26 @@ public class ABC132D {
     public static void main(String[] args) {
         int n = nextInt();
         int k = nextInt();
+//        solve1(n, k);
+        solve2(n, k);
+        out.flush();
+    }
+    private static void solve2(int n, int k) {
         int r = n-k;
+        for (int i = 0; i < k; i++) {
+            long blue = i>0&&k-1>i?modCombination(k-1, i, MOD):1;
+            long red = r+1>i+1?modCombination(r+1, i+1, MOD):r+1==i+1?1:0;
+            out.println(blue*red%MOD);
+        }
+    }
+
+    private static void solve1(int n, int k) {
+        int r = n - k;
         long c = 1;
         long rc = r+1;
         out.println(c*Math.max(0, rc));
         for (int i = 1; i < k; i++) {
-            c*=(k-1-i+1);
+            c*=(k -1-i+1);
             c%=MOD;
             c*=modInv(i);
             c%=MOD;
@@ -24,7 +38,6 @@ public class ABC132D {
             rc%=MOD;
             out.println(c*rc%MOD);
         }
-        out.flush();
     }
 
     private static long memo[] = new long[2001];
@@ -37,6 +50,20 @@ public class ABC132D {
         return memo[a]=result;
     }
 
+    private static long modCombination(long n, long k, int mod) {
+        long numerator = modFact(n, n-k, mod);
+        long denominator = modFact(k, 1, mod);
+        long invDenominator = modPow(denominator, mod - 2, mod);
+
+        return numerator * invDenominator % mod;
+    }
+
+    private static long modFact(long from, long toEx, int mod) {
+        if (from == toEx) {
+            return 1;
+        }
+        return from * modFact(from-1, toEx, mod) % mod;
+    }
 
     private static long modPow(long a, long n, int mod) {
         long x = a % mod;
