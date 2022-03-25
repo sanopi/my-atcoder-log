@@ -25,7 +25,7 @@ public class ABC233C {
             List<Long> result = new ArrayList<>();
             for (Long l : kouho) {
                 for (Integer ball : balls) {
-                    if (l*ball>=l) {
+                    if (l <= x/ball) {
                         result.add(l*ball);
                     }
                 }
