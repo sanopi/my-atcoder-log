@@ -1,5 +1,6 @@
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,44 @@ public class ABC245E {
         int[] b = nextIntArray(n);
         int[] c = nextIntArray(m);
         int[] d = nextIntArray(m);
+        String ans;
+//        ans = solve1(n, m, a, b, c, d);
+        ans = solve2(n, m, a, b, c, d);
+        out.println(ans);
+        out.flush();
+    }
+
+    private static String solve2(int n, int m, int[] a, int[] b, int[] c, int[] d) {
+        Square[] chocos = new Square[n];
+        for (int i = 0; i < n; i++) {
+            chocos[i] = new Square(a[i], b[i], false);
+        }
+        Square[] boxes = new Square[m];
+        for (int i = 0; i < m; i++) {
+            boxes[i] = new Square(c[i], d[i], true);
+        }
+        Arrays.sort(chocos, Comparator.comparing(s -> -s.x));
+        Arrays.sort(boxes, Comparator.comparing(s -> -s.x));
+
+        TreeMap<Integer, Integer> counts = new TreeMap<>();
+        int boxi = 0;
+        for (Square choco : chocos) {
+            while (boxi < m && boxes[boxi].x >= choco.x) {
+                counts.put(boxes[boxi].y, counts.getOrDefault(boxes[boxi].y, 0)+1);
+                boxi++;
+            }
+            int chocoy = choco.y;
+            Map.Entry<Integer, Integer> entry = counts.ceilingEntry(chocoy);
+            if (entry == null) {
+                return "No";
+            }
+            counts.put(entry.getKey(), entry.getValue()-1);
+            counts.remove(entry.getKey(), 0);
+        }
+        return "Yes";
+    }
+
+    private static String solve1(int n, int m, int[] a, int[] b, int[] c, int[] d) {
         List<Square> all = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             all.add(new Square(a[i], b[i], false));
@@ -31,15 +70,13 @@ public class ABC245E {
             } else {
                 Map.Entry<Integer, Integer> entry = map.ceilingEntry(square.y);
                 if (entry==null) {
-                    System.out.println("No");
-                    return;
+                    return "No";
                 }
                 map.put(entry.getKey(), entry.getValue()-1);
                 map.remove(entry.getKey(), 0);
             }
         }
-        out.println("Yes");
-        out.flush();
+        return "Yes";
     }
 
     private static class Square {
