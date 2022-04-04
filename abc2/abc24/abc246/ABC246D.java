@@ -5,26 +5,17 @@ public class ABC246D {
 
     public static void main(String[] args) {
         long n = nextLong();
-
-        int k = 0;
-        while (true) {
-            long k3 = (long) k*k*k;
-            if (k3>=n) {
-                break;
-            }
-            k++;
-        }
-        long ans = calc(k, 0);
-        int a = k-1;
-        int b = 1;
+        long ans = Long.MAX_VALUE;
+        int a = 1000000;
+        int b = 0;
         while (a>=b) {
             while (true) {
-                long res = calc(a, b);
-                if (res >= n) {
-                    ans = Math.min(ans, res);
+                long result = calc(a, b);
+                if (result >= n) {
+                    ans = Math.min(ans, result);
                     break;
                 }
-                if (res < 0) break;
+                if (result < 0) break;
                 b++;
             }
             a--;
