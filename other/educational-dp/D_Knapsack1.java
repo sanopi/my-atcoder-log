@@ -1,29 +1,32 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Q3_Vacation {
+public class D_Knapsack1 {
 
     public static void main(String[] args) {
         int n = nextInt();
-        int[] a = new int[n];
-        int[] b = new int[n];
-        int[] c = new int[n];
+        int wMax = nextInt();
+        int[] ww = new int[n];
+        long[] vv = new long[n];
         for (int i = 0; i < n; i++) {
-            a[i] = nextInt();
-            b[i] = nextInt();
-            c[i] = nextInt();
+            ww[i] = nextInt();
+            vv[i] = nextLong();
         }
 
-        int[][] dp = new int[n][3];
-        dp[0][0] = a[0];
-        dp[0][1] = b[0];
-        dp[0][2] = c[0];
-        for (int i = 1; i < n; i++) {
-            dp[i][0] = Math.max(dp[i-1][1] + a[i], dp[i-1][2] + a[i]);
-            dp[i][1] = Math.max(dp[i-1][0] + b[i], dp[i-1][2] + b[i]);
-            dp[i][2] = Math.max(dp[i-1][0] + c[i], dp[i-1][1] + c[i]);
+        long[][] dp = new long[n][wMax+1];
+        for (int i = ww[0]; i <= wMax; i++) {
+            dp[0][i] = vv[0];
         }
-        out.println(Math.max(dp[n-1][0], Math.max(dp[n-1][1], dp[n-1][2])));
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j <= wMax; j++) {
+                dp[i][j] = Math.max(dp[i][j], dp[i-1][j]);
+            }
+            int w = ww[i];
+            for (int j = 0; j + w <= wMax; j++) {
+                dp[i][j+w] = Math.max(dp[i][j+w], dp[i-1][j] + vv[i]);
+            }
+        }
+        out.println(dp[n-1][wMax]);
         out.flush();
     }
 

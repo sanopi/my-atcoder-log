@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Q6_LCS {
+public class F_LCS {
 
     public static void main(String[] args) {
         char[] s = next().toCharArray();

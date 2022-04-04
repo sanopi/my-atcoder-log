@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
-public class Q7_LongestPath {
+public class G_LongestPath {
 
     private static int n;
     private static int m;

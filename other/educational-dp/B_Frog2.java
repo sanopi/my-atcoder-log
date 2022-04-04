@@ -2,7 +2,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Q2_Frog2 {
+public class B_Frog2 {
 
     public static void main(String[] args) {
         int n = nextInt();

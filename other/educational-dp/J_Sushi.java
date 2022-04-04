@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Q10_Sushi {
+public class J_Sushi {
 
     private static int n;
     private static double[][][] dp;

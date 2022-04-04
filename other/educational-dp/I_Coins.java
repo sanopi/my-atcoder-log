@@ -1,32 +1,29 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Q4_Knapsack1 {
+public class I_Coins {
 
     public static void main(String[] args) {
         int n = nextInt();
-        int wMax = nextInt();
-        int[] ww = new int[n];
-        long[] vv = new long[n];
+        double[] p = new double[n];
         for (int i = 0; i < n; i++) {
-            ww[i] = nextInt();
-            vv[i] = nextLong();
+            p[i] = nextDouble();
         }
+        double[][] dp = new double[n][n+1];
+        dp[0][0] = (1-p[0]);
+        dp[0][1] = (p[0]);
 
-        long[][] dp = new long[n][wMax+1];
-        for (int i = ww[0]; i <= wMax; i++) {
-            dp[0][i] = vv[0];
-        }
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j <= wMax; j++) {
-                dp[i][j] = Math.max(dp[i][j], dp[i-1][j]);
-            }
-            int w = ww[i];
-            for (int j = 0; j + w <= wMax; j++) {
-                dp[i][j+w] = Math.max(dp[i][j+w], dp[i-1][j] + vv[i]);
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j <= i+1; j++) {
+                dp[i+1][j] += dp[i][j]*(1-p[i+1]);
+                dp[i+1][j+1] += dp[i][j]*(p[i+1]);
             }
         }
-        out.println(dp[n-1][wMax]);
+        double ans = 0;
+        for (int i = n/2+1; i <= n; i++) {
+            ans+=dp[n-1][i];
+        }
+        out.println(ans);
         out.flush();
     }
 

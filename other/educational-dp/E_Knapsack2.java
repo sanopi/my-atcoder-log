@@ -2,7 +2,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Q5_Knapsack2 {
+public class E_Knapsack2 {
 
     public static void main(String[] args) {
         int n = nextInt();

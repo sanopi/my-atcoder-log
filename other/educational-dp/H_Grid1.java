@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Q8_Grid1 {
+public class H_Grid1 {
 
     private static final int MOD = 1000000007;
 
