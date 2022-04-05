@@ -19,7 +19,7 @@ public class N_Slimes {
     }
 
     private static long solve2(int n, long[] a) {
-        dp = new long[n][n];
+        dp = new long[n][n+1];
         for (int i = 0; i < n; i++) {
             Arrays.fill(dp[i], Long.MAX_VALUE);
         }
@@ -28,16 +28,16 @@ public class N_Slimes {
             sum[i+1] = sum[i] + a[i];
         }
 
-        return memoRec(0, n-1);
+        return memoRec(0, n);
     }
 
     private static long memoRec(int l, int r) {
         if (dp[l][r]<Long.MAX_VALUE) return dp[l][r];
-        if (l==r) return dp[l][r] = 0;
+        if (l==r-1) return dp[l][r] = 0;
         long res = Long.MAX_VALUE;
-        for (int i = l; i < r; i++) {
-            long left = memoRec(l, i) + (sum[i+1] - sum[l]);
-            long right = memoRec(i+1, r) + (sum[r+1] - sum[i+1]);
+        for (int i = l+1; i < r; i++) {
+            long left = memoRec(l, i) + (sum[i] - sum[l]);
+            long right = memoRec(i, r) + (sum[r] - sum[i]);
             res = Math.min(res, left+right);
         }
         return dp[l][r] = res;
