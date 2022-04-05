@@ -1,0 +1,90 @@
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class N_Slimes {
+
+    private static long[][] dp;
+    private static long[] sum;
+
+    public static void main(String[] args) {
+        int n = nextInt();
+        long[] a = nextLongArray(n);
+
+        long ans;
+//        ans = solve1_wa(a);
+        ans = solve2(n, a);
+        out.println(ans);
+        out.flush();
+    }
+
+    private static long solve2(int n, long[] a) {
+        dp = new long[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dp[i], Long.MAX_VALUE);
+        }
+        sum = new long[n+1];
+        for (int i = 0; i < n; i++) {
+            sum[i+1] = sum[i] + a[i];
+        }
+
+        return memoRec(0, n-1);
+    }
+
+    private static long memoRec(int l, int r) {
+        if (dp[l][r]<Long.MAX_VALUE) return dp[l][r];
+        if (l==r) return dp[l][r] = 0;
+        long res = Long.MAX_VALUE;
+        for (int i = l; i < r; i++) {
+            long left = memoRec(l, i) + (sum[i+1] - sum[l]);
+            long right = memoRec(i+1, r) + (sum[r+1] - sum[i+1]);
+            res = Math.min(res, left+right);
+        }
+        return dp[l][r] = res;
+    }
+
+    private static long solve1_wa(long[] a) {
+        long ans;
+        ans = 0;
+        while (a.length>1) {
+            int i = 0;
+            for (int j = 0; j < a.length - 1; j++) {
+                if (a[i]+ a[i+1] > a[j]+ a[j+1]) {
+                    i=j;
+                }
+            }
+            ans += a[i] + a[i+1];
+            long[] newA = new long[a.length-1];
+            for (int j = 0; j < a.length-1; j++) {
+                if (i==j) {
+                    newA[j] = a[j]+ a[j+1];
+                } else if (i<j) {
+                    newA[j] = a[j+1];
+                } else {
+                    newA[j] = a[j];
+                }
+            }
+            a = newA;
+            System.out.println(Arrays.toString(newA));
+        }
+        return ans;
+    }
+
+    static PrintWriter out = new PrintWriter(System.out);
+    static Scanner scanner = new Scanner(System.in);
+    static String next() { return scanner.next(); }
+    static int nextInt() { return Integer.parseInt(next()); }
+    static long nextLong() { return Long.parseLong(next()); }
+    static double nextDouble() { return Double.parseDouble(next()); }
+    static int[] nextIntArray(int n) {
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) { array[i] = nextInt(); }
+        return array;
+    }
+    static long[] nextLongArray(int n) {
+        long[] array = new long[n];
+        for (int i = 0; i < n; i++) { array[i] = nextLong(); }
+        return array;
+    }
+
+}
