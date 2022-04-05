@@ -43,6 +43,20 @@ public class N_Slimes {
         return dp[l][r] = res;
     }
 
+    /**
+     * 例えば下記の時WAとなる
+     * [4, 5, 3, 5]
+     * この解き方では37
+     * 4 5 3 5 | 0
+     * 4 8 5 | 8
+     * 12 5 | 20
+     * 17 | 37
+     * 正しい答えは34
+     * 4 5 3 5 | 0
+     * 9 3 5 | 9
+     * 9 8 | 17
+     * 17 | 34
+     */
     private static long solve1_wa(long[] a) {
         long ans;
         ans = 0;
@@ -65,7 +79,6 @@ public class N_Slimes {
                 }
             }
             a = newA;
-            System.out.println(Arrays.toString(newA));
         }
         return ans;
     }
