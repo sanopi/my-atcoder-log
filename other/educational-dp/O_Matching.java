@@ -15,7 +15,36 @@ public class O_Matching {
         }
 
         int k = 1<<n;
+        long ans;
+//        ans = solve1(n, a, k);
+        ans = solve2(n, a, k);
 
+        out.println(ans);
+        out.flush();
+    }
+
+    private static long solve2(int n, int[][] a, int k) {
+        long[] dp = new long[k];
+        dp[0]=1;
+
+        for (int i = 0; i < k; i++) {
+            for (int wi = 0; wi < n; wi++) {
+                int woman = 1<<wi;
+                if ((i & woman) == 0) {
+                    int next = i|woman;
+                    int mi = Integer.bitCount(next)-1;
+                    if (a[mi][wi] == 1) {
+                        dp[next]+=dp[i];
+                        dp[next]%=MOD;
+                    }
+                }
+            }
+        }
+
+        return dp[k - 1];
+    }
+
+    private static long solve1(int n, int[][] a, int k) {
         long[] dp = new long[k];
         dp[0]=1;
         Queue<Integer> q = new ArrayDeque<>();
@@ -38,8 +67,7 @@ public class O_Matching {
             }
         }
 
-        out.println(dp[k-1]);
-        out.flush();
+        return dp[k - 1];
     }
 
     static PrintWriter out = new PrintWriter(System.out);
