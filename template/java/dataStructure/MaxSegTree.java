@@ -4,19 +4,23 @@ import java.util.Arrays;
 
 class MaxSegTree {
 
-    private static final long INF = Long.MIN_VALUE;
-
     int n;
     long[] tree;
     long[] subTree;
+    private long unit;
 
     private MaxSegTree(long[] array) {
+        this(array, Long.MIN_VALUE);
+    }
+
+    private MaxSegTree(long[] array, long unit) {
         int len = array.length;
         n = getSize(len);
         tree = new long[2 * n - 1];
         initTree(array, len);
         subTree = new long[2 * n - 1];
-        Arrays.fill(subTree, INF);
+        this.unit = unit;
+        Arrays.fill(subTree, unit);
     }
 
     private int getSize(final int len) {
@@ -28,7 +32,7 @@ class MaxSegTree {
     }
 
     private void initTree(final long[] array, final int len) {
-        Arrays.fill(tree, INF);
+        Arrays.fill(tree, unit);
         for (int i = 0; i < len; i++) {
             tree[i + n - 1] = array[i]; // 葉のindexはn-1から2n-2まで
         }
@@ -111,7 +115,7 @@ class MaxSegTree {
      */
     private long doQuery(int l, int r, int node, int lEdge, int rEdge) {
         eval(node);
-        if (rEdge <= l || r <= lEdge) { return INF; }
+        if (rEdge <= l || r <= lEdge) { return unit; }
         if (l <= lEdge && rEdge <= r) { return tree[node]; }
         return Math.max(
             doQuery(l, r, lChildOf(node), lEdge, (lEdge+rEdge)/2),
@@ -120,13 +124,13 @@ class MaxSegTree {
     }
 
     private void eval(int node) {
-        if (subTree[node] == INF) { return; }
+        if (subTree[node] == unit) { return; }
         if (node < n - 1) { // 葉ではない場合
             subTree[lChildOf(node)] = subTree[node];
             subTree[rChildOf(node)] = subTree[node];
         }
         tree[node] = subTree[node];
-        subTree[node] = INF;
+        subTree[node] = unit;
     }
 
     private int lChildOf(int i) {
