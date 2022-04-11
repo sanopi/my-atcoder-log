@@ -5,7 +5,8 @@ public class ABC247C {
 
     public static void main(String[] args) {
         int n = nextInt();
-        out.println(solve("1", 1, n));
+//        out.println(solve("1", 1, n));
+        out.println(memoRec(n));
         out.flush();
     }
 
@@ -15,6 +16,14 @@ public class ABC247C {
         }
         int next = n+1;
         return solve(s+" "+next+" "+s, next, max);
+    }
+
+    private static String memoRec(int n) {
+        if (n==1) {
+            return "1";
+        }
+        String prev = memoRec(n-1);
+        return prev + " " + n + " " + prev;
     }
 
     static PrintWriter out = new PrintWriter(System.out);
