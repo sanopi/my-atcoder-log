@@ -14,6 +14,7 @@ public class ABC249E {
         sum[1][0] = 1;
 
         for (int i = 1; i <= n; i++) {
+            // sum を更新したいので、j=0から始める
             for (int j = 0; j <= 2*i; j++) {
                 for (int k = 2; k <= Math.min(nLen+1, j); k++) {
                     int min = Integer.parseInt("1" + "0".repeat(k - 2));
@@ -26,7 +27,6 @@ public class ABC249E {
                 }
                 sum[i+1][j] += dp[i][j] + sum[i][j];
                 sum[i+1][j] %= p;
-//                System.out.println(i+" " + j + " " + dp[i][j] + " " + sum[i+1][j]);
             }
         }
 
@@ -35,6 +35,7 @@ public class ABC249E {
             ans += dp[n][i];
             ans %= p;
         }
+        // mod p の値を引く計算をDPで行うので、負になることがある。
         ans+=p;
         out.println(ans%p);
         out.flush();
