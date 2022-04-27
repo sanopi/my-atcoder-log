@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
-import java.util.Map;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 public class ABC249F {
 
@@ -21,40 +21,27 @@ public class ABC249F {
     private static long getMax(int k, Operation[] operations) {
         long max = Long.MIN_VALUE;
         int n = operations.length;
-        TreeMap<Integer, Integer> delCan = new TreeMap<>();
-        int delCanCount = 0;
+        PriorityQueue<Integer> delCan = new PriorityQueue<>(Comparator.reverseOrder());
         long deleteSum = 0;
         long sum = 0;
-        // 逆順で見る
         for (int i = n - 1; i >= 0; i--) {
             Operation oi = operations[i];
             if (oi.t == 1) {
-                long tmpSum = sum + oi.y;
-                max = Math.max(max, tmpSum-deleteSum);
+                max = Math.max(max, sum + oi.y - deleteSum);
                 if (k==0) return max;
                 if (k > 0) k--;
             } else {
                 sum += oi.y;
                 if (oi.y<0) {
-                    delCan.put(oi.y, delCan.getOrDefault(oi.y, 0)+1);
+                    delCan.add(oi.y);
                     deleteSum+=oi.y;
-                    delCanCount++;
                 }
             }
-            if (delCanCount>k) {
-                deleteSum -= deleteDelete(delCan);
-                delCanCount--;
+            if (delCan.size()>k) {
+                deleteSum -= delCan.poll();
             }
         }
         return max;
-    }
-
-    private static long deleteDelete(TreeMap<Integer, Integer> delCan) {
-        Map.Entry<Integer, Integer> entry = delCan.pollLastEntry();
-        if (entry.getValue()-1 >0) {
-            delCan.put(entry.getKey(), entry.getValue()-1);
-        }
-        return entry.getKey();
     }
 
     private static class Operation {
