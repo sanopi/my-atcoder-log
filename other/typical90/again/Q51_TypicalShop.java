@@ -48,14 +48,8 @@ public class Q51_TypicalShop {
     }
 
     private static int upperBound(List<Long> list, long p) {
-        int ng = -1;
-        int ok = list.size();
-        while (ok-ng > 1) {
-            int point = (ok + ng) /2;
-            if (p < list.get(point)) ok = point;
-            else ng = point;
-        }
-        return ok;
+        int found = Collections.binarySearch(list, p+1);
+        return found<0 ? ~found : found;
     }
 
     static PrintWriter out = new PrintWriter(System.out);

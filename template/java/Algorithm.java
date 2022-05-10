@@ -1,6 +1,7 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
@@ -10,25 +11,13 @@ import java.util.stream.Collectors;
 public class Algorithm {
 
     private static int upperBound(List<Long> list, long p) {
-        int ng = -1;
-        int ok = list.size();
-        while (ok-ng > 1) {
-            int mid = (ok + ng) /2;
-            if (p < list.get(mid)) ok = mid;
-            else ng = mid;
-        }
-        return ok;
+        int found = Collections.binarySearch(list, p+1);
+        return found<0 ? ~found : found;
     }
 
     private static int lowerBound(List<Long> list, long p) {
-        int ng = -1;
-        int ok = list.size();
-        while (ok-ng > 1) {
-            int mid = (ok + ng) /2;
-            if (p <= list.get(mid)) ok = mid;
-            else ng = mid;
-        }
-        return ok;
+        int found = Collections.binarySearch(list, p);
+        return found<0 ? ~found : found;
     }
 
     private static List<Integer> topologicalSort(List<Integer>[] graph) {
