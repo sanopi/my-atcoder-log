@@ -16,6 +16,7 @@ public class Q68_PairedInformation_5 {
             int y = nextInt()-1;
             long v = nextLong();
             if (t == 0) {
+                if (unionFind.same(x,y)) continue;
                 if (x % 2 == 1) v = -v;
                 segTree.addValue(x, v);
                 unionFind.unite(x,y);
