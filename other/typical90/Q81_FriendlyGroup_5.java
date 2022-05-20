@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Q81_FriendlyGroup {
+public class Q81_FriendlyGroup_5 {
 
     public static void main(String[] args) {
         int n = nextInt();

@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Q86_SnukesFavoriteArrays {
+public class Q86_SnukesFavoriteArrays_5 {
 
     private static final int MOD = 1000000007;
 
