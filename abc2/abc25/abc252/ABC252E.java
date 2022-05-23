@@ -30,16 +30,17 @@ public class ABC252E {
         Arrays.fill(costs, Long.MAX_VALUE);
         costs[0] = 0;
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.comparing(i -> costs[i]));
-        pq.add(0);
+        PriorityQueue<Pair> pq = new PriorityQueue<>(Comparator.comparing(p -> costs[p.i]));
+        pq.add(new Pair(0, 0));
         while (!pq.isEmpty()) {
-            Integer current = pq.poll();
-            for (Path path : g[current]) {
+            Pair current = pq.poll();
+            if (costs[current.i] != current.cost) continue;
+            for (Path path : g[current.i]) {
                 int next = path.to;
-                long cost = costs[current] + path.c;
+                long cost = costs[current.i] + path.c;
                 if (cost < costs[next]) {
                     costs[next] = cost;
-                    pq.add(next);
+                    pq.add(new Pair(next, cost));
                 }
             }
         }
@@ -50,6 +51,15 @@ public class ABC252E {
         }
         out.println();
         out.flush();
+    }
+
+    private static class Pair {
+        int i;
+        long cost;
+        public Pair(int i, long cost) {
+            this.i = i;
+            this.cost = cost;
+        }
     }
 
     private static boolean dfs(int current, int prev, long cost, long[] costs) {
