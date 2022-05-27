@@ -89,19 +89,19 @@ public class ABC201D {
             this.a = a;
         }
         private Point minT(Point other) {
-            if (other == null) return new Point(this.t, this.a);
+            if (other == null) return this;
             if ((this.t-this.a) - (other.t-other.a) < 0) {
-                return new Point(this.t, this.a);
+                return this;
             } else {
-                return new Point(other.t, other.a);
+                return other;
             }
         }
         private Point minA(Point other) {
-            if (other == null) return new Point(this.t, this.a);
+            if (other == null) return this;
             if ((this.a-this.t) - (other.a-other.t) < 0) {
-                return new Point(this.t, this.a);
+                return this;
             } else {
-                return new Point(other.t, other.a);
+                return other;
             }
         }
         @Override
