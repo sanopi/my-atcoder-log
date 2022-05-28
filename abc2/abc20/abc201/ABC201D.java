@@ -21,19 +21,21 @@ public class ABC201D {
         q.add(new Pair(h-1, w-1));
         while(!q.isEmpty()) {
             Pair current = q.poll();
-            Point cp = points[current.x][current.y];
+            int cx = current.x;
+            int cy = current.y;
+            Point cp = points[cx][cy];
             for (Pair next : current.next()) {
                 int nx = next.x;
                 int ny = next.y;
                 if (!(0<= nx && nx <h && 0<= ny && ny <w)) continue;
                 if (points[nx][ny] == null) q.add(next);
-                int diff = g[nx][ny]=='+'?1:-1;
+                int diff = g[cx][cy]=='+'?1:-1;
                 if ((nx+ny)%2==0) {
-                    Point np = new Point(cp.t, cp.a + diff);
-                    points[nx][ny] = np.minA(points[nx][ny]);
-                } else {
                     Point np = new Point(cp.t + diff, cp.a);
-                    points[nx][ny] = np.minT(points[nx][ny]);
+                    points[nx][ny] = np.maxT(points[nx][ny]);
+                } else {
+                    Point np = new Point(cp.t, cp.a + diff);
+                    points[nx][ny] = np.maxA(points[nx][ny]);
                 }
             }
         }
@@ -88,17 +90,17 @@ public class ABC201D {
             this.t = t;
             this.a = a;
         }
-        private Point minT(Point other) {
+        private Point maxT(Point other) {
             if (other == null) return this;
-            if ((this.t-this.a) - (other.t-other.a) < 0) {
+            if ((this.t-this.a) - (other.t-other.a) > 0) {
                 return this;
             } else {
                 return other;
             }
         }
-        private Point minA(Point other) {
+        private Point maxA(Point other) {
             if (other == null) return this;
-            if ((this.a-this.t) - (other.a-other.t) < 0) {
+            if ((this.a-this.t) - (other.a-other.t) > 0) {
                 return this;
             } else {
                 return other;
