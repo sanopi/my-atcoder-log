@@ -6,6 +6,10 @@ public class ARC129C {
     public static void main(String[] args) {
         int n = nextInt();
 
+        solve(n);
+        out.flush();
+    }
+    private static void solve(int n) {
         StringBuilder sb = new StringBuilder();
         int count = 0;
         int[] lastCounts = new int[7];
@@ -37,7 +41,6 @@ public class ARC129C {
         }
 
         out.println(sb.toString());
-        out.flush();
     }
 
     static PrintWriter out = new PrintWriter(System.out);
