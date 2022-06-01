@@ -23,54 +23,32 @@ public class ARC090D {
             g[r].add(new Position(r, l, -d));
         }
         dists = new Long[n];
-        try {
-            for (int i = 0; i < n; i++) {
-                if (dists[i] == null) {
-                    Pair result = dfs(i, 0);
-                    if (result.max - result.min > 1000000000) {
-                        throw new Exception();
-                    }
-                }
+        boolean ok = true;
+        for (int i = 0; i < n; i++) {
+            if (dists[i] == null) {
+                ok &= dfs(i, 0);
             }
-            out.println("Yes");
-        } catch (Exception e) {
-            out.println("No");
         }
+        out.println(ok?"Yes":"No");
         out.flush();
     }
 
-    private static Pair dfs(int current, long dist) throws Exception {
+    private static boolean dfs(int current, long dist) {
         if (dists[current] != null && dists[current] != dist) {
-            throw new Exception();
+            return false;
         }
         if (dists[current] != null) {
-            return Pair.of(dists[current]);
+            return true;
         }
         dists[current] = dist;
 
-        Pair res = Pair.UNIT;
+        boolean res = true;
         for (Position position : g[current]) {
             int next = position.to;
-            Pair result = dfs(next, dist + position.dist);
-            res = res.merge(result);
+            boolean result = dfs(next, dist + position.dist);
+            res &= result;
         }
         return res;
-    }
-
-    private static class Pair {
-        private static final Pair UNIT = new Pair(Long.MAX_VALUE, Long.MIN_VALUE);
-        final long min;
-        final long max;
-        public Pair(long min, long max) {
-            this.min = min;
-            this.max = max;
-        }
-        static Pair of(long num) {
-            return new Pair(num, num);
-        }
-        Pair merge(Pair other) {
-            return new Pair(Math.min(this.min, other.min), Math.max(this.max, other.max));
-        }
     }
 
     private static class Position {
