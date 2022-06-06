@@ -3,7 +3,7 @@ package dataStructure;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
-public class SegTree<T> {
+class SegTree<T> {
     int n;
     T[] tree;
     BiFunction<T, T, T> op;
