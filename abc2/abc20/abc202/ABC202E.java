@@ -3,7 +3,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.function.BiFunction;
 
@@ -12,6 +14,11 @@ public class ABC202E {
     private static List<Integer>[] tree;
     private static List<Integer>[] depT;
     private static Pair[] times;
+
+    // solve2
+    private static List<Q>[] qu;
+    private static int[] depCount;
+    private static int[] ans;
 
     public static void main(String[] args) {
         int n = nextInt();
@@ -23,12 +30,49 @@ public class ABC202E {
             int p = nextInt()-1;
             tree[p].add(i);
         }
+        int q = nextInt();
 
-        solve1(n);
+//        solve1(n, q);
+        solve2(n, q);
         out.flush();
     }
 
-    private static void solve1(int n) {
+    private static void solve2(int n, int q) {
+        qu = new List[n];
+        for (int i = 0; i < n; i++) {
+            qu[i] = new ArrayList<>();
+        }
+        depCount = new int[n];
+        ans = new int[q];
+
+        for (int i = 0; i < q; i++) {
+            int u = nextInt()-1;
+            int d = nextInt();
+            qu[u].add(new Q(u, d, i));
+        }
+        dfs2(0, 0);
+        for (int i : ans) {
+            out.println(i);
+        }
+    }
+
+    private static void dfs2(int current, int dep) {
+        List<Q> qs = qu[current];
+        Map<Integer, Integer> depCountMemo = new HashMap<>();
+        for (Q q : qs) {
+            depCountMemo.put(q.d, depCount[q.d]);
+        }
+        depCount[dep]++;
+        for (Integer next : tree[current]) {
+            dfs2(next, dep+1);
+        }
+        for (Q q : qs) {
+            int d = q.d;
+            ans[q.i] = depCount[d] - depCountMemo.get(d);
+        }
+    }
+
+    private static void solve1(int n, int q) {
         depT = new List[n];
         for (int i = 0; i < n; i++) {
             depT[i] = new ArrayList<>();
@@ -40,7 +84,6 @@ public class ABC202E {
 
         dfs(0, 0, 0);
 
-        int q = nextInt();
         for (int i = 0; i < q; i++) {
             int u = nextInt()-1;
             int d = nextInt();
