@@ -99,4 +99,27 @@ public class Mathematics {
         }
         return res;
     }
+
+    private static final long[][] ROTATE_90 = {{0,1,0},{-1,0,0},{0,0,1}};
+    private static final long[][] ROTATE_270 = {{0,-1,0},{1,0,0},{0,0,1}};
+    private static final long[][] INVERSE_X(long p) { return new long[][]{{-1,0,2*p},{0,1,0},{0,0,1}};}
+    private static final long[][] INVERSE_Y(long p) { return new long[][]{{1,0,0},{0,-1,2*p},{0,0,1}};}
+
+    /**
+     * 座標変換する場合は、行列を左に掛けていく
+     */
+    private static long[][] multiply(long[][] a, long[][] b) {
+        int ar = a.length;
+        int ac = a[0].length;
+        int bc = b[0].length;
+        long[][] res = new long[ar][bc];
+        for (int i = 0; i < ar; i++) {
+            for (int j = 0; j < bc; j++) {
+                for (int k = 0; k < ac; k++) {
+                    res[i][j] += a[i][k] * b[k][j];
+                }
+            }
+        }
+        return res;
+    }
 }

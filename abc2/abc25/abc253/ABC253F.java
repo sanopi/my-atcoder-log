@@ -73,7 +73,7 @@ public class ABC253F {
         }
     }
 
-    interface Q {}
+    private interface Q {}
     private static class Q1 implements Q {
         int l;
         int r;
