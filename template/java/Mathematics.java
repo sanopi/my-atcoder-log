@@ -100,10 +100,13 @@ public class Mathematics {
         return res;
     }
 
-    private static final long[][] ROTATE_90 = {{0,1,0},{-1,0,0},{0,0,1}};
-    private static final long[][] ROTATE_270 = {{0,-1,0},{1,0,0},{0,0,1}};
+    private static final long[][] ROTATE_90 = {{0,-1,0},{1,0,0},{0,0,1}};
+    private static final long[][] ROTATE_270 = {{0,1,0},{-1,0,0},{0,0,1}};
+    private static final double[][] ROTATE(double rad) { return new double[][]{{Math.cos(rad),-Math.sin(rad),0},{Math.sin(rad),Math.cos(rad),0},{0,0,1}};}
     private static final long[][] INVERSE_X(long p) { return new long[][]{{-1,0,2*p},{0,1,0},{0,0,1}};}
     private static final long[][] INVERSE_Y(long p) { return new long[][]{{1,0,0},{0,-1,2*p},{0,0,1}};}
+    private static final long[][] SLIDE_X(long p) { return new long[][]{{1,0,p},{0,1,0},{0,0,1}};}
+    private static final long[][] SLIDE_Y(long p) { return new long[][]{{1,0,0},{0,1,p},{0,0,1}};}
 
     /**
      * 座標変換する場合は、行列を左に掛けていく
