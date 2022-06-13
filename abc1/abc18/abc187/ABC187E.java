@@ -23,6 +23,60 @@ public class ABC187E {
             tree[a].add(path);
             tree[b].add(path);
         }
+        ans = new long[n];
+        //        solve1(n, paths);
+        solve2(n, paths);
+        for (long an : ans) {
+            out.println(an);
+        }
+        out.flush();
+    }
+
+    private static void solve2(int n, Path[] paths) {
+        fillChild(0, -1);
+        int q = nextInt();
+        while (q-->0) {
+            int t = nextInt();
+            int e = nextInt()-1;
+            int x = nextInt();
+            Path path = paths[e];
+            if (t == 1) { // aの方
+                if (path.child == 'a') {
+                    ans[path.a] += x;
+                } else {
+                    ans[0] += x;
+                    ans[path.b] -= x;
+                }
+            } else { // bの方
+                if (path.child == 'b') {
+                    ans[path.b] += x;
+                } else {
+                    ans[0] += x;
+                    ans[path.a] -= x;
+                }
+            }
+        }
+        doImos(0, -1, ans);
+    }
+
+    private static void fillChild(int current, int prev) {
+        for (Path path : tree[current]) {
+            if (path.next(current).next == prev) continue;
+            if (path.a == current) path.child='b'; else path.child='a';
+            fillChild(path.next(current).next, current);
+        }
+    }
+
+    private static void doImos(int current, int prev, long[] arr) {
+        for (Path path : tree[current]) {
+            Path.Pair next = path.next(current);
+            if (next.next == prev) continue;
+            arr[next.next] += arr[current];
+            doImos(next.next, current, arr);
+        }
+    }
+
+    private static void solve1(int n, Path[] paths) {
         int q = nextInt();
         while (q-->0) {
             int t = nextInt();
@@ -34,13 +88,8 @@ public class ABC187E {
                 paths[e].bAdd+=x;
             }
         }
-        ans = new long[n];
         dfs0(0, -1, null);
         dfs1(0, -1, 0);
-        for (long an : ans) {
-            out.println(an);
-        }
-        out.flush();
     }
 
     private static void dfs0(int current, int prev, Path from) {
@@ -75,6 +124,7 @@ public class ABC187E {
         int i;
         long aAdd = 0;
         long bAdd = 0;
+        char child = ' ';
         public Path(int a, int b, int i) {
             this.a = a;
             this.b = b;
