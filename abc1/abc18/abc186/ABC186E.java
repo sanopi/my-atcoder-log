@@ -11,26 +11,16 @@ public class ABC186E {
             long n = nextInt();
             long s = nextInt();
             long k = nextInt();
-            k = (s+k)%n - s;
 
-            if (k==0) {
-                out.println(s==0?0:-1);
-                continue;
-            }
-            if (k<0) {
-                s = (n-s)%n;
-                k = -k;
-            }
+            long gcdNKS = gcd(n, gcd(k, s));
+            n = n/gcdNKS;
+            k = k/gcdNKS;
+            s = s/gcdNKS;
 
             long gcdNK = gcd(n, k);
             if (gcdNK != 1) {
-                if (s % gcdNK != 0) {
-                    out.println(-1);
-                    continue;
-                }
-                n = n/gcdNK;
-                k = k/gcdNK;
-                s = s/gcdNK;
+                out.println(-1);
+                continue;
             }
 
             Map<Long, Integer> map = new HashMap<>();
