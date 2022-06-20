@@ -23,25 +23,41 @@ public class ABC186E {
                 continue;
             }
 
-            Map<Long, Integer> map = new HashMap<>();
-            long nn = n;
-            for (long i = 2; i*i <= nn; i++) {
-                while (nn%i==0) {
-                    map.put(i, map.getOrDefault(i, 0)+1);
-                    nn /= i;
-                }
-            }
-            if (nn != 1) {
-                map.put(nn, map.getOrDefault(nn, 0)+1);
-            }
-            long tagainiSo = n;
-            for (Long key : map.keySet()) {
-                tagainiSo *= (key-1);
-                tagainiSo /= key;
-            }
-            out.println(((n-s)%n * modPow(k, tagainiSo-1, (int)n))%n);
+//            solve1(n, s, k);
+            solve2(n, s, k);
         }
         out.flush();
+    }
+
+    private static void solve2(long n, long s, long k) {
+        // K'K ≡ 1 (mod N)
+        // K'K + mN ≡ 1 (mod N)
+        // => ここからK'とmを求められる
+        Tri result = exGCD(k, n);
+        // xK + s ≡ 0 (mod N)
+        // xK'K ≡ (n-s)k' (mod N)
+        long ans = (n - s) % n * result.x % n;
+        out.println((ans+n)%n);
+    }
+
+    private static void solve1(long n, long s, long k) {
+        Map<Long, Integer> map = new HashMap<>();
+        long nn = n;
+        for (long i = 2; i*i <= nn; i++) {
+            while (nn%i==0) {
+                map.put(i, map.getOrDefault(i, 0)+1);
+                nn /= i;
+            }
+        }
+        if (nn != 1) {
+            map.put(nn, map.getOrDefault(nn, 0)+1);
+        }
+        long tagainiSo = n;
+        for (Long key : map.keySet()) {
+            tagainiSo *= (key-1);
+            tagainiSo /= key;
+        }
+        out.println(((n - s)% n * modPow(k, tagainiSo-1, (int) n))% n);
     }
 
     private static long gcd(long a, long b) {
@@ -67,6 +83,24 @@ public class ABC186E {
         return res;
     }
 
+    private static Tri exGCD(long a, long b) {
+        if (b == 0) return new Tri(1, 0, a);
+        Tri result = exGCD(b, a%b);
+        long x = result.y;
+        long y = result.x - (a/b)*result.y;
+        return new Tri(x, y, result.d);
+    }
+
+    private static class Tri {
+        long x;
+        long y;
+        long d;
+        public Tri(long x, long y, long d) {
+            this.x = x;
+            this.y = y;
+            this.d = d;
+        }
+    }
 
     static PrintWriter out = new PrintWriter(System.out);
     static Scanner scanner = new Scanner(System.in);

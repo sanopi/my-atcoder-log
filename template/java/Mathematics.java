@@ -44,6 +44,26 @@ public class Mathematics {
         return gcd(b, a % b);
     }
 
+
+    private static Tri exGCD(long a, long b) {
+        if (b == 0) return new Tri(1, 0, a);
+        Tri result = exGCD(b, a%b);
+        long x = result.y;
+        long y = result.x - (a/b)*result.y;
+        return new Tri(x, y, result.d);
+    }
+
+    private static class Tri {
+        long x;
+        long y;
+        long d;
+        public Tri(long x, long y, long d) {
+            this.x = x;
+            this.y = y;
+            this.d = d;
+        }
+    }
+
     private static long lcm(long a, long b) {
         return a / gcd(a, b) * b;
     }
