@@ -1,5 +1,7 @@
 package dataStructure;
 
+import java.util.Arrays;
+
 class BIT {
     int n;
     long[] tree;
@@ -19,6 +21,18 @@ class BIT {
             res += tree[index];
         }
         return res;
+    }
+
+    private static long calcInvCount(int[] array) {
+        int len = array.length;
+        int max = Arrays.stream(array).max().getAsInt();
+        BIT bit = new BIT(max);
+        long count = 0;
+        for (int i = 0; i < len; i++) {
+            bit.add(array[i], 1);
+            count += (i+1-bit.sum(array[i]));
+        }
+        return count;
     }
 }
 
