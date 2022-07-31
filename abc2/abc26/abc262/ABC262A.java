@@ -5,12 +5,7 @@ public class ABC262A {
 
     public static void main(String[] args) {
         int y = nextInt();
-        int i = y % 4;
-        if (i == 2) {
-            out.println(y);
-        } else {
-            out.println(y + ((6 - i) % 4));
-        }
+        out.println(y + ((6 - y % 4) % 4));
         out.flush();
     }
 
