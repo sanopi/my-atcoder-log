@@ -21,7 +21,7 @@ public class ABC207C {
         System.out.println(ans);
     }
 
-    static class Range {
+    private static class Range {
         int type;
         int start;
         int end;
