@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class ABC148F {
 
     private static int[] aokiDist;
-    private static boolean[] takahashiDist;
+    private static boolean[] takahashiReachable;
     private static List<Integer>[] tree;
 
     public static void main(String[] args) {
@@ -24,11 +24,11 @@ public class ABC148F {
         }
         aokiDist = new int[n];
         fillAokiDist(v, -1, 0);
-        takahashiDist = new boolean[n];
+        takahashiReachable = new boolean[n];
         fillTakahashiDist(u, -1, 0);
         int ans = 0;
         for (int i = 0; i < n; i++) {
-            if (takahashiDist[i] && tree[i].size() > 1) {
+            if (takahashiReachable[i] && tree[i].size() > 1) {
                 ans = Math.max(ans, aokiDist[i]);
             }
         }
@@ -46,7 +46,7 @@ public class ABC148F {
     }
 
     private static void fillTakahashiDist(int current, int prev, int dist) {
-        takahashiDist[current] = true;
+        takahashiReachable[current] = true;
         if (aokiDist[current] <= dist) {
             return;
         }
