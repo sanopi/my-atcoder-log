@@ -27,11 +27,11 @@ class UnionFind {
         return parents[x];
     }
 
-    private boolean same(int x, int y) {
+    private boolean isUnited(int x, int y) {
         return find(x) == find(y);
     }
 
-    private int size(int x) {
+    private int getSize(int x) {
         return sizes[find(x)];
     }
 
