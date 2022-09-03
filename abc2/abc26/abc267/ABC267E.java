@@ -2,7 +2,9 @@ import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -30,6 +32,46 @@ public class ABC267E {
             }
         }
 
+        long ans;
+//        ans = solve1(n, a, g, Arrays.copyOf(costs, n));
+        ans = solve2(n, a, g, Arrays.copyOf(costs, n));
+
+        out.println(ans);
+        out.flush();
+    }
+    private static long solve2(int n, long[] a, List<Integer>[] g, long[] costs) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>(Comparator.comparing((Pair p) -> p.c).thenComparing(p -> -a[p.i]));
+        for (int i = 0; i < n; i++) {
+            pq.add(new Pair(i, costs[i]));
+        }
+        boolean[] deleted = new boolean[n];
+        long ans = 0;
+        while (!pq.isEmpty()) {
+            Pair c = pq.poll();
+            int ci = c.i;
+            long cc = c.c;
+            if (deleted[ci]) continue;
+            if (cc != costs[ci]) continue;
+            deleted[ci] = true;
+            ans = Math.max(ans, costs[ci]);
+            for (Integer next : g[ci]) {
+                costs[next] -= a[ci];
+                pq.add(new Pair(next, costs[next]));
+            }
+        }
+        return ans;
+    }
+
+    private static final class Pair {
+        int i;
+        long c;
+        public Pair(int i, long c) {
+            this.i = i;
+            this.c = c;
+        }
+    }
+
+    private static long solve1(int n, long[] a, List<Integer>[] g, long[] costs) {
         long ok = Long.MAX_VALUE/2;
         long ng = -1;
         while (ok-ng>1){
@@ -68,10 +110,7 @@ public class ABC267E {
                 ng = mid;
             }
         }
-
-
-        out.println(ok);
-        out.flush();
+        return ok;
     }
 
     static PrintWriter out = new PrintWriter(System.out);
