@@ -9,6 +9,8 @@ public class ABC267F {
     private static List<Integer>[] tree;
     private static int[] ans;
     private static List<Query>[] queries;
+    private static int[] memo;
+    private static int memoSize = 0;
 
     public static void main(String[] args) {
         int n = nextInt();
@@ -38,8 +40,9 @@ public class ABC267F {
         }
         ans = new int[q];
         Arrays.fill(ans, -1);
-        solve(first.i, -1, new ArrayList<>());
-        solve(second.i, -1, new ArrayList<>());
+        memo = new int[second.dep+1];
+        solve(first.i, -1);
+        solve(second.i, -1);
 
         for (int an : ans) {
             out.println(an);
@@ -79,18 +82,19 @@ public class ABC267F {
         return res;
     }
 
-    private static void solve(int current, int prev, List<Integer> list) {
-        list.add(current+1);
+    private static void solve(int current, int prev) {
+        memo[memoSize] = current+1;
+        memoSize++;
         for (Query query : queries[current]) {
-            if (list.size()>query.k) {
-                ans[query.i] = list.get(list.size()-query.k-1);
+            if (memoSize-query.k-1>=0) {
+                ans[query.i] = memo[memoSize-query.k-1];
             }
         }
         for (Integer next : tree[current]) {
             if (prev == next) continue;
-            solve(next, current, list);
+            solve(next, current);
         }
-        list.remove(list.size()-1);
+        memoSize--;
     }
 
     static PrintWriter out = new PrintWriter(System.out);
