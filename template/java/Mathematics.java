@@ -68,6 +68,20 @@ public class Mathematics {
         return a / gcd(a, b) * b;
     }
 
+    private static long tousaSum_fl(long first, long last, long count, int mod) {
+        first%=mod;
+        last%=mod;
+        count%=mod;
+        return count*(first + last)%mod*modPow(2, mod-2, mod)%mod;
+    }
+
+    private static long tousaSum_fd(long first, long diff, long count, int mod) {
+        first%=mod;
+        diff%=mod;
+        count%=mod;
+        return count*((2*first + (count-1)*diff)%mod)%mod*modPow(2, mod-2, mod)%mod;
+    }
+
     private static int[] getSmallestPrimeFactorArray(int size) {
         int[] spf = new int[size+1];
         for (int i = 0; i <= size; i++) {

@@ -28,13 +28,13 @@ public class ABC269F {
             }
             long fmCount = width-smCount;
 
-            long ans = width*(((a-1)*m%MOD+d) + ((a-1)*m%MOD+c))%MOD*modInv2%MOD + smCount*m%MOD;
+            long ans = tousaSum_fl((a-1)*m%MOD+d, (a-1)*m%MOD+c, width, MOD, modInv2) + smCount*m%MOD;
             ans %= MOD;
             long diff2 = (fmCount+smCount)*m*2 %MOD;
             long repeatCount = height / 2 % MOD;
             ans *= repeatCount;
             ans %= MOD;
-            ans += repeatCount * (repeatCount-1)%MOD * diff2%MOD * modInv2 % MOD;
+            ans += tousaSum_fd(0, diff2, repeatCount, MOD, modInv2);
             ans %= MOD;
 
             if (height % 2 == 1) {
@@ -45,14 +45,22 @@ public class ABC269F {
                     first = ((b-1)*m+c+1)%MOD;
                 }
 
-                ans += (fmCount*(2*first+(fmCount-1)*2)%MOD*modInv2%MOD);
-
+                ans += tousaSum_fd(first, 2, fmCount, MOD, modInv2);
             }
             ans %= MOD;
             out.println(ans);
         }
 
         out.flush();
+    }
+
+
+    private static long tousaSum_fl(long first, long last, long count, int mod, long modInv2) {
+        return count%mod*(first%mod + last%mod)%mod*modInv2%mod;
+    }
+
+    private static long tousaSum_fd(long first, long diff, long count, int mod, long modInv2) {
+        return count%mod*((2*(first%mod) + (count-1)%mod*diff)%mod)%mod*modInv2%mod;
     }
 
     private static long modPow(long a, long n, int mod) {
