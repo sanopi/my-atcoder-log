@@ -20,7 +20,7 @@ public class ABC283D {
                 continue;
             } else if (si == ')') {
                 depth--;
-                int target = depAddIndex[depth] + 1;
+                int target = depAddIndex[depth+1];
                 for (int j = 0; j < 26; j++) {
                     if (target <= balls[j]) {
                         balls[j] = -1;
