@@ -14,6 +14,54 @@ public class Q54_TakahashiNumber_6 {
 
 
     public static void main(String[] args) {
+        //        solve1();
+        solve2();
+    }
+
+    private static void solve2() {
+        int n = nextInt();
+        int m = nextInt();
+        List<Integer>[] g = new List[n+m];
+        for (int i = 0; i < n + m; i++) {
+            g[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < m; i++) {
+            int mi = n+i;
+            int k = nextInt();
+            for (int j = 0; j < k; j++) {
+                int r = nextInt()-1;
+                g[r].add(mi);
+                g[mi].add(r);
+            }
+        }
+        int[] ans = new int[n+m];
+        Arrays.fill(ans, INF);
+        ans[0] = 0;
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(0);
+        while (!q.isEmpty()) {
+            int ci = q.poll();
+            int cc = ans[ci];
+            int nc = cc+1;
+
+            for (int ni : g[ci]) {
+                if (ans[ni] <= nc) continue;
+                ans[ni] = nc;
+                q.add(ni);
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            int ai = ans[i];
+            if (ai == INF) {
+                out.println(-1);
+            } else {
+                out.println(ai/2);
+            }
+        }
+        out.flush();
+    }
+
+    private static void solve1() {
         int n = nextInt();
         int m = nextInt();
         List<Integer>[] authorPapers = new List[n];
