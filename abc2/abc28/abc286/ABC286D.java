@@ -10,15 +10,27 @@ public class ABC286D {
         int x = nextInt();
         boolean ok;
 //        ok = solve1(n, x);
-        ok = solve2(n, x);
-//        ok = solve3(n, x);
+//        ok = solve2(n, x);
+        ok = solve3(n, x);
         out.println(ok ? "Yes" : "No");
         out.flush();
     }
 
     // 多倍長整数による高速化を更に高速化
     private static boolean solve3(int n, int x) {
-        return false;
+        BigInteger result = BigInteger.ONE;
+        for (int i = 0; i < n; i++) {
+            int a = nextInt();
+            int b = nextInt();
+            int set = 1;
+            while (b > 0) {
+                set = Math.min(set, b);
+                result = result.or(result.shiftLeft(a*set));
+                b -= set;
+                set <<= 1;
+            }
+        }
+        return result.testBit(x);
     }
 
     // 多倍長整数による高速化
