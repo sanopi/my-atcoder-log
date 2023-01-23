@@ -33,8 +33,8 @@ public class Q83_ColorfulGraph_6 {
             qx[i] = x;
             qy[i] = y;
         }
-        solve1(n, m, g, q, qx, qy);
-//        solve2(n, m, g, q, queries);
+        //        solve1(n, m, g, q, qx, qy);
+        solve2(n, m, g, q, queries);
         out.flush();
     }
 
@@ -93,7 +93,48 @@ public class Q83_ColorfulGraph_6 {
 
     // 出次数で平方分割？
     private static void solve2(int n, int m, List<Integer>[] g, int q, Query[] queries) {
+        int threshold = (int)Math.sqrt(m);
+        // 本当はこっちが最速saisoku
+        //        int threshold = (int)Math.sqrt(2*m);
+        List<Integer>[] newG = new List[n];
+        for (int i = 0; i < n; i++) {
+            newG[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < n; i++) {
+            for (int next : g[i]) {
+                if (g[next].size() >= threshold) {
+                    newG[i].add(next);
+                }
+            }
+        }
 
+        int[] ans = new int[n];
+        Arrays.fill(ans, 1);
+
+        int[] lastUpdated = new int[n];
+        Arrays.fill(lastUpdated, -1);
+        for (int i = 0; i < q; i++) {
+            int x = queries[i].x;
+            int y = queries[i].y;
+            if (g[x].size() >= threshold) {
+                out.println(ans[x]);
+            } else {
+                int index = lastUpdated[x];
+                for (int next : g[x]) {
+                    index = Math.max(index, lastUpdated[next]);
+                }
+                if (index == -1) {
+                    out.println(ans[x]);
+                } else {
+                    out.println(queries[index].y);
+                }
+            }
+            ans[x] = y;
+            for (int next : newG[x]) {
+                ans[next] = y;
+            }
+            lastUpdated[x] = i;
+        }
     }
 
     private static class Query {
