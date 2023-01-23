@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -7,7 +8,34 @@ public class ABC286D {
     public static void main(String[] args) {
         int n = nextInt();
         int x = nextInt();
-        boolean[] ok = new boolean[x+1];
+        boolean ok;
+//        ok = solve1(n, x);
+        ok = solve2(n, x);
+//        ok = solve3(n, x);
+        out.println(ok ? "Yes" : "No");
+        out.flush();
+    }
+
+    // 多倍長整数による高速化を更に高速化
+    private static boolean solve3(int n, int x) {
+        return false;
+    }
+
+    // 多倍長整数による高速化
+    private static boolean solve2(int n, int x) {
+        BigInteger result = BigInteger.ONE;
+        for (int i = 0; i < n; i++) {
+            int a = nextInt();
+            int b = nextInt();
+            for (int j = 0; j < b; j++) {
+                result = result.or(result.shiftLeft(a));
+            }
+        }
+        return result.testBit(x);
+    }
+
+    private static boolean solve1(int n, int x) {
+        boolean[] ok = new boolean[x +1];
         ok[0] = true;
         for (int i = 0; i < n; i++) {
             int a = nextInt();
@@ -22,8 +50,7 @@ public class ABC286D {
                 ok = next;
             }
         }
-        out.println(ok[x]? "Yes" : "No");
-        out.flush();
+        return ok[x];
     }
 
     static PrintWriter out = new PrintWriter(System.out);
