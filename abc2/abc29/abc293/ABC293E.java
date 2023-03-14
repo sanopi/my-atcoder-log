@@ -9,9 +9,52 @@ public class ABC293E {
         long a = nextInt();
         long x = nextLong();
         long m = nextInt();
-        long ans = solve1(a, x, m);
+        long ans;
+//        ans = solve1(a, x, m);
+        ans = solve2(a, x, m);
         out.println(ans);
         out.flush();
+    }
+
+    private static long solve2(long a, long x, long m) {
+        long[][] matrix = {
+            {a, 1},
+            {0, 1}
+        };
+        long[][] result = modPow(matrix, x - 1, m);
+        return (result[0][0] + result[0][1])%m;
+    }
+
+    private static long[][] modPow(long[][] a, long n, long mod) {
+        int index = 0;
+        int len = a.length;
+        long[][] res = new long[len][len];
+        for (int i = 0; i < len; i++) {
+            res[i][i] = 1;
+        }
+
+        while (1L<<index <= n) {
+            if ((1L<<index & n) != 0) {
+                res = modMultiply(res, a, mod);
+            }
+            a = modMultiply(a, a, mod);
+            index++;
+        }
+        return res;
+    }
+
+    private static long[][] modMultiply(long[][] a, long[][] b, long mod) {
+        int len = a.length;
+        long[][] res = new long[len][len];
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                for (int k = 0; k < len; k++) {
+                    res[i][j] += ((long)a[i][k]*b[k][j])%mod;
+                    res[i][j]%=mod;
+                }
+            }
+        }
+        return res;
     }
 
     private static Map<Long, Long> memo = new HashMap<>();
