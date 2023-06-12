@@ -1,4 +1,6 @@
 import java.io.PrintWriter;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -11,10 +13,43 @@ public class ABC305F {
         int n = nextInt();
         int m = nextInt();
         done.add(1);
-        solve(1, 0);
+//        solve1(1, 0);
+        solve2();
     }
 
-    private static boolean solve(int current, int prev) {
+    private static void solve2() {
+        Deque<Integer> history = new ArrayDeque<>();
+        int current = 1;
+        while (true) {
+            String ks = next();
+            if (ks.equals("OK")) {
+                return;
+            }
+            int k = Integer.parseInt(ks);
+            int[] v = new int[k];
+            for (int i = 0; i < k; i++) {
+                v[i] = nextInt();
+            }
+            boolean moved = false;
+            for (int i = 0; i < k; i++) {
+                int next = v[i];
+                if (done.contains(next)) continue;
+                done.add(next);
+                System.out.println(next);
+                history.addLast(current);
+                current = next;
+                moved = true;
+                break;
+            }
+            if (!moved) {
+                Integer next = history.pollLast();
+                System.out.println(next);
+                current = next;
+            }
+        }
+    }
+
+    private static boolean solve1(int current, int prev) {
         String ks = next();
         if (ks.equals("OK")) {
             return true;
@@ -29,7 +64,7 @@ public class ABC305F {
             if (done.contains(next)) continue;
             done.add(next);
             System.out.println(next);
-            if (solve(next, current)) {
+            if (solve1(next, current)) {
                 return true;
             }
             int kk = nextInt();
