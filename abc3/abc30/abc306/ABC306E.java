@@ -11,6 +11,59 @@ public class ABC306E {
         int k = nextInt();
         int q = nextInt();
 
+        solve2(n, k, q);
+//        solve1(n, k, q);
+        out.flush();
+
+    }
+    private static void solve2(int n, int k, int q) {
+        TreeMap<Integer, Integer> contains = new TreeMap<>();
+        TreeMap<Integer, Integer> notContains = new TreeMap<>();
+        contains.put(0, k);
+        notContains.put(0, n-k);
+        int[] a = new int[n];
+        long ans = 0;
+        while (q--> 0) {
+            int x = nextInt()-1;
+            int y = nextInt();
+            int ax = a[x];
+            a[x] = y;
+
+            if (contains.containsKey(ax)) {
+                contains.put(ax, contains.get(ax)-1);
+                contains.remove(ax, 0);
+                ans-=ax;
+                if (notContains.lastKey() >= y) {
+                    Integer highest = notContains.lastKey();
+                    notContains.put(highest, notContains.get(highest)-1);
+                    notContains.remove(highest, 0);
+                    notContains.merge(y, 1, Math::addExact);
+                    contains.merge(highest, 1, Math::addExact);
+                    ans+=highest;
+                } else {
+                    contains.merge(y, 1, Math::addExact);
+                    ans+=y;
+                }
+            } else {
+                notContains.put(ax, notContains.get(ax)-1);
+                notContains.remove(ax, 0);
+                if (contains.firstKey() < y) {
+                    Integer lowest = contains.firstKey();
+                    ans-=lowest;
+                    contains.put(lowest, contains.get(lowest)-1);
+                    contains.remove(lowest, 0);
+                    notContains.merge(lowest, 1, Math::addExact);
+
+                    contains.merge(y, 1, Math::addExact);
+                    ans+=y;
+                } else {
+                    notContains.merge(y, 1, Math::addExact);
+                }
+            }
+            out.println(ans);
+        }
+    }
+    private static void solve1(int n, int k, int q) {
         TreeMap<Integer, TreeSet<Integer>> contains = new TreeMap<>();
         TreeMap<Integer, TreeSet<Integer>> notContains = new TreeMap<>();
         TreeSet<Integer> cSet = new TreeSet<>();
@@ -25,7 +78,7 @@ public class ABC306E {
         notContains.put(0, ncSet);
         int[] a = new int[n];
         long ans = 0;
-        while (q --> 0) {
+        while (q--> 0) {
             int x = nextInt()-1;
             int y = nextInt();
             int ax = a[x];
@@ -104,8 +157,6 @@ public class ABC306E {
             out.println(ans);
 
         }
-        out.flush();
-
     }
 
 
