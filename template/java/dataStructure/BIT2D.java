@@ -1,5 +1,3 @@
-package dataStructure;
-
 class BIT2D {
     int h;
     int w;

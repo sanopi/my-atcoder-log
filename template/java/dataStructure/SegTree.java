@@ -1,5 +1,3 @@
-package dataStructure;
-
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
@@ -60,7 +58,6 @@ class SegTree<T> {
      * 区間の値を求める
      * 実装的には、親から子に下りながら見る。
      *
-     *
      * @param l 左端（inclusive）
      * @param r 右端（exclusive）
      */
@@ -73,18 +70,22 @@ class SegTree<T> {
      * 値の欲しい範囲が広かったら、nodeの値をそのまま返す。
      * 値の欲しい範囲が狭かったら、nodeの子に対して再度このメソッドを実行する。
      *
-     * @param l 値の欲しい範囲の左端（inclusive）
-     * @param r 値の欲しい範囲の右端（exclusive）
-     * @param node 今調べているnode
+     * @param l     値の欲しい範囲の左端（inclusive）
+     * @param r     値の欲しい範囲の右端（exclusive）
+     * @param node  今調べているnode
      * @param lEdge nodeが表す範囲の左端（inclusive）
      * @param rEdge nodeが表す範囲の右端（exclusive）
      */
     private T doQuery(int l, int r, int node, int lEdge, int rEdge) {
-        if (rEdge <= l || r <= lEdge) { return unit; }
-        if (l <= lEdge && rEdge <= r) { return tree[node]; }
+        if (rEdge <= l || r <= lEdge) {
+            return unit;
+        }
+        if (l <= lEdge && rEdge <= r) {
+            return tree[node];
+        }
         return op.apply(
-            doQuery(l, r, lChildOf(node), lEdge, (lEdge+rEdge)/2),
-            doQuery(l, r, rChildOf(node), (lEdge+rEdge)/2, rEdge)
+            doQuery(l, r, lChildOf(node), lEdge, (lEdge + rEdge) / 2),
+            doQuery(l, r, rChildOf(node), (lEdge + rEdge) / 2, rEdge)
         );
     }
 
