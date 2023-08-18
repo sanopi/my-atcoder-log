@@ -3,8 +3,12 @@ import java.util.Scanner;
 
 public class JavaTemplate {
 
-    public static void main(String[] args) {
+    private static void solve() {
 
+    }
+
+    public static void main(String[] args) {
+        new Thread(null, () -> solve(), "", 16 * 1024 * 1024).start();
         out.flush();
     }
 
