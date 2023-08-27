@@ -1,10 +1,43 @@
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
-public class JavaTemplate {
+public class ABC315E {
 
+    private static List<Integer> ans = new ArrayList<>();
+    private static Set<Integer> done = new HashSet<>();
+    private static List<Integer>[] g;
     private static void solve() {
+        int n = nextInt();
+        g = new List[n];
+        for (int i = 0; i < n; i++) {
+            g[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < n; i++) {
+            int ci = nextInt();
+            for (int j = 0; j < ci; j++) {
+                int p = nextInt()-1;
+                g[i].add(p);
+            }
+        }
+        dfs(0);
+        for (int i = 0; i < ans.size()-1; i++) {
+            out.print(ans.get(i)+1+" ");
+        }
+        out.println();
         out.flush();
+    }
+
+    private static void dfs(int current) {
+        for (Integer next : g[current]) {
+            if (done.contains(next)) continue;
+            done.add(next);
+            dfs(next);
+        }
+        ans.add(current);
     }
 
     public static void main(String[] args) {

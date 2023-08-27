@@ -1,16 +1,54 @@
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
-public class JavaTemplate {
+public class ABC315C {
 
     private static void solve() {
+        int n = nextInt();
+        Pair[] pairs = new Pair[n];
+        List<Integer>[] ff = new List[n];
+        for (int i = 0; i < n; i++) {
+            ff[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < n; i++) {
+            int f = nextInt()-1;
+            int s = nextInt();
+            pairs[i] = new Pair(f, s);
+            ff[f].add(s);
+        }
+        int ans = 0;
+        List<Integer> distinct = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            ff[i].sort(Comparator.reverseOrder());
+            if (ff[i].size() > 0) {
+                distinct.add(ff[i].get(0));
+            }
+            if (ff[i].size() > 1) {
+                ans = Math.max(ans, ff[i].get(0) + ff[i].get(1)/2);
+            }
+        }
+        distinct.sort(Comparator.reverseOrder());
+        if (distinct.size()>1) {
+            ans = Math.max(ans, distinct.get(0)+distinct.get(1));
+        }
+        out.println(ans);
         out.flush();
     }
 
+    private static class Pair {
+        int f;
+        int s;
+        public Pair(int f, int s) {
+            this.f = f;
+            this.s = s;
+        }
+    }
+
     public static void main(String[] args) {
-        Thread thread = new Thread(null, () -> solve(), "", 64L * 1024 * 1024);
-        thread.setUncaughtExceptionHandler((t, e) -> System.exit(1));
-        thread.start();
+        new Thread(null, () -> solve(), "", 16 * 1024 * 1024).start();
     }
 
     static PrintWriter out = new PrintWriter(System.out);
