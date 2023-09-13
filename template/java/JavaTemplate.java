@@ -9,7 +9,10 @@ public class JavaTemplate {
 
     public static void main(String[] args) {
         Thread thread = new Thread(null, () -> solve(), "", 64L * 1024 * 1024);
-        thread.setUncaughtExceptionHandler((t, e) -> System.exit(1));
+        thread.setUncaughtExceptionHandler((t, e) -> {
+            e.printStackTrace();
+            System.exit(1);
+        });
         thread.start();
     }
 
