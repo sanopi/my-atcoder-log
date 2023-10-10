@@ -1,5 +1,6 @@
 import java.io.PrintWriter;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -7,6 +8,40 @@ import java.util.TreeMap;
 public class ABC323D {
 
     private static void solve() {
+        long ans;
+//        ans = solve1();
+        ans = solve2();
+        out.println(ans);
+        out.flush();
+    }
+
+    private static long solve2() {
+        int n = nextInt();
+        long ans = 0;
+        Map<Long, Long> memo = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            long s = nextLong();
+            long c = nextLong();
+            int ng = 31;
+            int ok = 0;
+            while (ng-ok>1) {
+                int mid = (ok+ng)/2;
+                if ((s % (1L<<mid)) == 0) {
+                    ok = mid;
+                } else {
+                    ng = mid;
+                }
+            }
+            memo.merge(s / (1L<<ok), c*(1L<<ok), Math::addExact);
+        }
+        for (Map.Entry<Long, Long> entry : memo.entrySet()) {
+            long num = entry.getValue();
+            ans += Long.bitCount(num);
+        }
+        return ans;
+    }
+
+    private static long solve1() {
         int n = nextInt();
         TreeMap<Long, Long> treeMap = new TreeMap<>(Comparator.naturalOrder());
         for (int i = 0; i < n; i++) {
@@ -24,8 +59,7 @@ public class ABC323D {
             }
             ans += c%2;
         }
-        out.println(ans);
-        out.flush();
+        return ans;
     }
 
 
