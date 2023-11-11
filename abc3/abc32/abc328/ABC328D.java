@@ -13,7 +13,7 @@ public class ABC328D {
             char c = s.charAt(i);
             deque.addLast(c);
 
-            while (deque.size()>=3) {
+            if (deque.size()>=3) {
                 Character last = deque.pollLast();
                 Character secondLast = deque.pollLast();
                 Character thirdLast = deque.pollLast();
@@ -22,7 +22,6 @@ public class ABC328D {
                     deque.addLast(thirdLast);
                     deque.addLast(secondLast);
                     deque.addLast(last);
-                    break;
                 }
             }
         }
