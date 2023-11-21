@@ -1,40 +1,36 @@
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class ABC325E {
-    private static final int MOD = 998244353;
+public class ABC326C {
+
     private static void solve() {
         int n = nextInt();
+        int m = nextInt();
         long[] a = nextLongArray(n);
-        long[] dp = new long[n+1];
-        dp[n] = 0;
-        long sum = 0;
-        long div = modPow(n, MOD - 2, MOD);
-        for (int i = n - 1; i >= 0; i--) {
-            dp[i] = (sum+a[i])*div%MOD;
-            sum+=dp[i]+a[i];
-            sum %= MOD;
+        Arrays.sort(a);
+        long ans = 1;
+        for (int i = 0; i < n; i++) {
+            long ai = a[i];
+            int index = upperBound(a, ai + m-1);
+            ans = Math.max(ans, index-i);
         }
-        out.println(dp[0]);
+        out.println(ans);
         out.flush();
     }
 
-    private static long modPow(long a, long n, int mod) {
-        long x = a % mod;
-        if (x == 0) {
-            return x;
-        }
-        long res = 1;
-        int i = 0;
-        while (1L << i <= n) {
-            if ((n & 1L << i) != 0) {
-                res = (res * x) % mod;
+    private static int upperBound(long[] a, long key) {
+        int ok = a.length;
+        int ng = -1;
+        while (ok-ng > 1) {
+            int mid = (ok+ng)/2;
+            if (key < a[mid]) {
+                ok = mid;
+            } else {
+                ng = mid;
             }
-            x = (x * x) % mod;
-            i += 1;
         }
-
-        return res;
+        return ok;
     }
 
     public static void main(String[] args) {

@@ -1,21 +1,40 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class ABC325B {
-
+public class ABC326E {
+    private static final int MOD = 998244353;
     private static void solve() {
         int n = nextInt();
-        for (int i = n; i < 1000; i++) {
-            int one = i/100;
-            int two = i/10 % 10;
-            int three = i % 10;
-            if (one * two == three) {
-                System.out.println(i);
-                return;
-            }
+        long[] a = nextLongArray(n);
+        long[] dp = new long[n+1];
+        dp[n] = 0;
+        long sum = 0;
+        long div = modPow(n, MOD - 2, MOD);
+        for (int i = n - 1; i >= 0; i--) {
+            dp[i] = (sum+a[i])*div%MOD;
+            sum+=dp[i]+a[i];
+            sum %= MOD;
         }
-        throw new RuntimeException();
-//        out.flush();
+        out.println(dp[0]);
+        out.flush();
+    }
+
+    private static long modPow(long a, long n, int mod) {
+        long x = a % mod;
+        if (x == 0) {
+            return x;
+        }
+        long res = 1;
+        int i = 0;
+        while (1L << i <= n) {
+            if ((n & 1L << i) != 0) {
+                res = (res * x) % mod;
+            }
+            x = (x * x) % mod;
+            i += 1;
+        }
+
+        return res;
     }
 
     public static void main(String[] args) {

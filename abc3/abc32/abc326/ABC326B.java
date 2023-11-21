@@ -1,18 +1,21 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class ABC325A {
+public class ABC326B {
 
     private static void solve() {
-        int x = nextInt();
-        int y = nextInt();
-        int diff = y - x;
-        if (-3 <= diff && diff <= 2) {
-            out.println("Yes");
-        } else {
-            out.println("No");
+        int n = nextInt();
+        for (int i = n; i < 1000; i++) {
+            int one = i/100;
+            int two = i/10 % 10;
+            int three = i % 10;
+            if (one * two == three) {
+                System.out.println(i);
+                return;
+            }
         }
-        out.flush();
+        throw new RuntimeException();
+//        out.flush();
     }
 
     public static void main(String[] args) {

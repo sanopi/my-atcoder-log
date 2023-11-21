@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class ABC325D {
+public class ABC326D {
 
     private static void solve() {
         int n = nextInt();

@@ -1,36 +1,18 @@
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class ABC325C {
+public class ABC326A {
 
     private static void solve() {
-        int n = nextInt();
-        int m = nextInt();
-        long[] a = nextLongArray(n);
-        Arrays.sort(a);
-        long ans = 1;
-        for (int i = 0; i < n; i++) {
-            long ai = a[i];
-            int index = upperBound(a, ai + m-1);
-            ans = Math.max(ans, index-i);
+        int x = nextInt();
+        int y = nextInt();
+        int diff = y - x;
+        if (-3 <= diff && diff <= 2) {
+            out.println("Yes");
+        } else {
+            out.println("No");
         }
-        out.println(ans);
         out.flush();
-    }
-
-    private static int upperBound(long[] a, long key) {
-        int ok = a.length;
-        int ng = -1;
-        while (ok-ng > 1) {
-            int mid = (ok+ng)/2;
-            if (key < a[mid]) {
-                ok = mid;
-            } else {
-                ng = mid;
-            }
-        }
-        return ok;
     }
 
     public static void main(String[] args) {
