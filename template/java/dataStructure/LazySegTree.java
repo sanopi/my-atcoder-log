@@ -87,17 +87,6 @@ class LazySegTree<T, R> {
         return op.apply(lResult, rResult);
     }
 
-
-    private void eval(int node) {
-        if (subTree[node] == re) { return; }
-        if (node < n) { // 葉ではない場合
-            subTree[node*2] = compose.apply(subTree[node*2], subTree[node]);
-            subTree[node*2+1] = compose.apply(subTree[node*2+1], subTree[node]);
-        }
-        tree[node] = act.apply(subTree[node], tree[node]);
-        subTree[node] = re;
-    }
-
     private void propagate(int l, int r) {
         for (int i = log; i >= 1; i--) {
             // 部分木の左端である=上のノードの情報だけ見ればいい場合を除き、遅延の伝播が必要。
