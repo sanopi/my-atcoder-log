@@ -7,8 +7,25 @@ public class ABC330C {
 
     private static void solve() {
         long d = nextLong();
+        long ans;
+//        ans = solve1(d);
+        ans = solve2(d);
+        out.println(ans);
+        out.flush();
+    }
+    private static long solve2(long d) {
+        long ans = Long.MAX_VALUE;
+        for (long x = 0; x*x <= d; x++) {
+            double y = Math.sqrt(Math.abs(x * x - d));
+            for (long yy = Math.max(0, (int) y-1); yy <= y+1; yy++){
+                ans = Math.min(ans, Math.abs(yy*yy+x*x-d));
+            }
+        }
+        return ans;
+    }
+    private static long solve1(long d) {
         List<Long> squares = new ArrayList<>();
-        for (long i = 0; i*i <= 2*d; i++) {
+        for (long i = 0; i*i <= 2* d; i++) {
             squares.add(i*i);
         }
         int n = squares.size();
@@ -20,13 +37,12 @@ public class ABC330C {
         long ans = Long.MAX_VALUE;
         for (int i = 0; i < n; i++) {
             long li = longs[i];
-            int lFound = lowerBound(longs, -li+d);
+            int lFound = lowerBound(longs, -li+ d);
             for (int j = Math.max(0, lFound-100); j < Math.min(n - 1, lFound + 100); j++) {
-                ans = Math.min(ans, Math.abs(longs[j]+li-d));
+                ans = Math.min(ans, Math.abs(longs[j]+li- d));
             }
         }
-        out.println(ans);
-        out.flush();
+        return ans;
     }
 
     private static int lowerBound(long[] a, long key) {
