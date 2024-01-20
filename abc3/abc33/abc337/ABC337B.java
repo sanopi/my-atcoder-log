@@ -1,0 +1,77 @@
+import java.io.PrintWriter;
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class ABC337B {
+
+    private static void solve() {
+        String s = next();
+        char[] chars = s.toCharArray();
+        int n = chars.length;
+        Queue<Character> q = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            q.add(chars[i]);
+        }
+        while (!q.isEmpty() && q.peek() == 'A') {
+            q.poll();
+        }
+        while (!q.isEmpty() && q.peek() == 'B') {
+            q.poll();
+        }
+        while (!q.isEmpty() && q.peek() == 'C') {
+            q.poll();
+        }
+        if (q.isEmpty()) {
+            out.println("Yes");
+
+        } else            out.println("No");
+
+        out.flush();
+    }
+
+    public static void main(String[] args) {
+        Thread thread = new Thread(null, () -> solve(), "", 64L * 1024 * 1024);
+        thread.setUncaughtExceptionHandler((t, e) -> {
+            e.printStackTrace();
+            System.exit(1);
+        });
+        thread.start();
+    }
+
+    static PrintWriter out = new PrintWriter(System.out);
+    static Scanner scanner = new Scanner(System.in);
+    static String next() { return scanner.next(); }
+    static int nextInt() {
+        int res = 0;
+        char[] chars = next().toCharArray();
+        boolean minus = chars[0] == '-';
+        int start = minus?1:0;
+        for (int i = start; i < chars.length; i++) {
+            res = res*10 + (chars[i]-'0');
+        }
+        return minus?-res:res;
+    }
+    static long nextLong() {
+        long res = 0;
+        char[] chars = next().toCharArray();
+        boolean minus = chars[0] == '-';
+        int start = minus?1:0;
+        for (int i = start; i < chars.length; i++) {
+            res = res*10 + (chars[i]-'0');
+        }
+        return minus?-res:res;
+    }
+    static double nextDouble() { return Double.parseDouble(next()); }
+    static int[] nextIntArray(int n) {
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) { array[i] = nextInt(); }
+        return array;
+    }
+    static long[] nextLongArray(int n) {
+        long[] array = new long[n];
+        for (int i = 0; i < n; i++) { array[i] = nextLong(); }
+        return array;
+    }
+
+}
