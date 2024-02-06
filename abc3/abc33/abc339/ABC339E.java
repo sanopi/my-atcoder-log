@@ -1,5 +1,93 @@
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.function.BiFunction;
+
+public class ABC339E {
+
+    private static void solve() {
+        int n = nextInt();
+        int d = nextInt();
+        int[] a = nextIntArray(n);
+
+        Integer[] integers = new Integer[500001];
+        Arrays.fill(integers, 0);
+        SegTree<Integer> segTree = new SegTree<>(
+            integers,
+            Math::max,
+            0
+        );
+
+        for (int i = 0; i < n; i++) {
+            int ai = a[i];
+            int l = Math.max(0, ai-d);
+            int r = Math.min(500000, ai+d);
+            int max = segTree.query(l, r + 1);
+            segTree.updateValue(ai, max+1);
+        }
+        Integer ans = segTree.query(0, 500001);
+        out.println(ans);
+        out.flush();
+    }
+
+    private static class P {
+        int num;
+        int len;
+        public P(int num, int len) {
+            this.num = num;
+            this.len = len;
+        }
+
+        private P merge(P other) {
+            if (other == null) return this;
+            return this.len >= other.len ? this : other;
+        }
+    }
+
+    public static void main(String[] args) {
+        Thread thread = new Thread(null, () -> solve(), "", 64L * 1024 * 1024);
+        thread.setUncaughtExceptionHandler((t, e) -> {
+            e.printStackTrace();
+            System.exit(1);
+        });
+        thread.start();
+    }
+
+    static PrintWriter out = new PrintWriter(System.out);
+    static Scanner scanner = new Scanner(System.in);
+    static String next() { return scanner.next(); }
+    static int nextInt() {
+        int res = 0;
+        char[] chars = next().toCharArray();
+        boolean minus = chars[0] == '-';
+        int start = minus?1:0;
+        for (int i = start; i < chars.length; i++) {
+            res = res*10 + (chars[i]-'0');
+        }
+        return minus?-res:res;
+    }
+    static long nextLong() {
+        long res = 0;
+        char[] chars = next().toCharArray();
+        boolean minus = chars[0] == '-';
+        int start = minus?1:0;
+        for (int i = start; i < chars.length; i++) {
+            res = res*10 + (chars[i]-'0');
+        }
+        return minus?-res:res;
+    }
+    static double nextDouble() { return Double.parseDouble(next()); }
+    static int[] nextIntArray(int n) {
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) { array[i] = nextInt(); }
+        return array;
+    }
+    static long[] nextLongArray(int n) {
+        long[] array = new long[n];
+        for (int i = 0; i < n; i++) { array[i] = nextLong(); }
+        return array;
+    }
+}
 
 class SegTree<T> {
     int n;
