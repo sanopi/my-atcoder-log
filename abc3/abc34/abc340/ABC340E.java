@@ -10,6 +10,43 @@ public class ABC340E {
         long[] a = nextLongArray(n);
         int[] b = nextIntArray(m);
 
+//        solve1(n, m, a, b);
+        solve2(n, m, a, b);
+        out.flush();
+    }
+    private static void solve2(int n, int m, long[] a, int[] b) {
+        // aが累積和だと考えて、diffの配列を作る。
+        // 更新 -> imos法の逆
+        // 取得 -> BITによる累積和取得
+        BIT bit = new BIT(n+1);
+        bit.add(0, a[0]);
+        for (int i = 1; i < n; i++) {
+            bit.add(i, a[i] - a[i-1]);
+        }
+
+        for (int i = 0; i < m; i++) {
+            int bi = b[i];
+            long biCount = bit.sum(bi);
+            bit.add(bi, -biCount);
+            bit.add(bi+1, biCount);
+
+            long cycle = biCount / n;
+            long rest = biCount % n;
+            bit.add(0, cycle);
+            bit.add(n, -cycle);
+            bit.add(bi+1, 1);
+            bit.add( (int) Math.min(n, bi+rest+1), -1);
+            if (n < bi+rest+1) {
+                bit.add(0, 1);
+                bit.add((int) (bi+rest+1)% n, -1);
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            out.print(bit.sum(i) + " ");
+        }
+    }
+
+    private static void solve1(int n, int m, long[] a, int[] b) {
         LazySegTree lazySegTree = new LazySegTree(
             a,
             0L,
@@ -27,13 +64,12 @@ public class ABC340E {
 
             lazySegTree.applyRange(bi+1, (int) Math.min(n, bi+rest+1), 1L);
             if (n < bi+rest+1) {
-                lazySegTree.applyRange(0, (int) (bi+rest+1)%n, 1L);
+                lazySegTree.applyRange(0, (int) (bi+rest+1)% n, 1L);
             }
         }
         for (int i = 0; i < n; i++) {
             out.print(lazySegTree.query(i, i+1) + " ");
         }
-        out.flush();
     }
 
     public static void main(String[] args) {
@@ -178,5 +214,41 @@ public class ABC340E {
         }
     }
 
+}
+
+
+
+class BIT {
+    int n;
+    long[] tree;
+    BIT(int n) {
+        this.n=n;
+        tree = new long[n+1];
+    }
+    public void add(int i, long v) {
+        for (int index = i+1; index <= n; index += (index & -index)) {
+            tree[index]+=v;
+        }
+    }
+    public long sum(int i) {
+        if (i<0) return 0;
+        long res = 0;
+        for (int index = i+1; index > 0; index -= (index & -index)) {
+            res += tree[index];
+        }
+        return res;
+    }
+
+    public static long calcInvCount(int[] array) {
+        int len = array.length;
+        int max = Arrays.stream(array).max().getAsInt();
+        BIT bit = new BIT(max);
+        long count = 0;
+        for (int i = 0; i < len; i++) {
+            bit.add(array[i], 1);
+            count += (i+1-bit.sum(array[i]));
+        }
+        return count;
+    }
 }
 
