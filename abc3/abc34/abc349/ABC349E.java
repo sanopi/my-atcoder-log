@@ -1,11 +1,14 @@
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.TreeSet;
 
 public class ABC349E {
 
     private static int[][] a;
+    private static final int MAX = 19683;
+    private static int[] memo = new int[MAX];
     private static void solve() {
         a = new int[3][3];
         for (int i = 0; i < 3; i++) {
@@ -13,8 +16,75 @@ public class ABC349E {
                 a[i][j] = nextInt();
             }
         }
+        boolean result;
+//        result = solve1();
+        Arrays.fill(memo, -1);
+        result = solve2();
+
+        if (result) {
+            System.out.println("Takahashi");
+        } else {
+            System.out.println("Aoki");
+        }
+        out.flush();
+    }
+
+    private static boolean solve2() {
+        return rec(0) != 0;
+    }
+
+    private static int rec(int num) {
+        if (memo[num] != -1) {
+            return memo[num];
+        }
+        int zeroCount = countZero(num);
+        boolean tTurn = zeroCount %2 == 1;
+
+        int[][] grid = toGrid(num);
+        List<List<Integer>> lines = List.of(
+            List.of(grid[0][0], grid[0][1], grid[0][2]),
+            List.of(grid[1][0], grid[1][1], grid[1][2]),
+            List.of(grid[2][0], grid[2][1], grid[2][2]),
+            List.of(grid[0][0], grid[1][0], grid[2][0]),
+            List.of(grid[0][1], grid[1][1], grid[2][1]),
+            List.of(grid[0][2], grid[1][2], grid[2][2]),
+            List.of(grid[0][0], grid[1][1], grid[2][2]),
+            List.of(grid[0][2], grid[1][1], grid[2][0])
+        );
+
+        if (lines.contains(List.of(1,1,1))|| lines.contains(List.of(2,2,2))) {
+            return memo[num] = 0;
+        }
+
+        if (zeroCount == 0) {
+            long tSum = 0;
+            long aSum = 0;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (grid[i][j] == 1) tSum+=a[i][j];
+                    else aSum+=a[i][j];
+                }
+            }
+            return memo[num] = aSum < tSum ? 0 : 1;
+        }
+
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        for (int i = 0; i < 9; i++) {
+            treeSet.add(i);
+        }
+        String s = getString(num);
+        for (int i = 0; i < 9; i++) {
+            if (s.charAt(i) != '0') continue;
+            char[] chars = s.toCharArray();
+            chars[i] = tTurn?'1':'2';
+            int result = rec(Integer.parseInt(String.valueOf(chars), 3));
+            treeSet.remove(result);
+        }
+        return memo[num] = treeSet.ceiling(0);
+    }
+
+    private static boolean solve1() {
         // 3進数で盤面を表現する 3^9
-        int MAX = 19683;
         // grundy数（0なら負け）を考える
         int[] grundy = new int[MAX];
         Arrays.fill(grundy, -1);
@@ -55,13 +125,14 @@ public class ABC349E {
             Integer g = treeSet.ceiling(0);
             grundy[i] = g;
         }
-//        System.out.println(Arrays.toString(grundy));
+        //        System.out.println(Arrays.toString(grundy));
         if (grundy[0] == 0) {
-            System.out.println("Aoki");
+//            System.out.println("Aoki");
+            return false;
         } else {
-            System.out.println("Takahashi");
+//            System.out.println("Takahashi");
+            return true;
         }
-        out.flush();
     }
 
     private static int countZero(int num) {
