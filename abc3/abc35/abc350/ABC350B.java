@@ -1,11 +1,31 @@
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Scanner;
 
 public class ABC350B {
 
     private static void solve() {
         int n = nextInt();
+        int ans;
+//        ans = solve1(n);
+        ans = solve2(n);
+        System.out.println(ans);
+        out.flush();
+    }
+
+    private static int solve2(int n) {
+        BitSet bitSet = new BitSet(n);
+        bitSet.set(0, n, true);
+        int q = nextInt();
+        while (q --> 0) {
+            int t = nextInt()-1;
+            bitSet.flip(t);
+        }
+        return bitSet.cardinality();
+    }
+
+    private static int solve1(int n) {
         int[] tooth = new int[n];
         Arrays.fill(tooth, 1);
         int q = nextInt();
@@ -13,8 +33,8 @@ public class ABC350B {
             int t = nextInt()-1;
             tooth[t] ^= 1;
         }
-        System.out.println(Arrays.stream(tooth).sum());
-        out.flush();
+        int res = Arrays.stream(tooth).sum();
+        return res;
     }
 
     public static void main(String[] args) {
